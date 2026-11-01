@@ -1,0 +1,187 @@
+#!/usr/bin/env bash
+# Copy jstack skills into a target repo. Does not run git.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: scripts/sync [--target-dir PATH] [--dry-run] [--all | SKILL ...] TARGET_REPO_PATH
+
+Copy skills from this repo's skills/ directory into TARGET_REPO_PATH.
+
+  --target-dir PATH   Directory under the target repo (default: .github/skills)
+  --dry-run           Print create, update or unchanged and change nothing
+  --all               Copy every skill
+  SKILL               Exact skill name or shell glob, for example terraform-*
+
+The last argument is the target repo and must already be a directory.
+Pass --all or at least one skill. A missing skill is an error.
+EOF
+}
+
+die() {
+  printf 'sync: %s\n' "$1" >&2
+  exit 1
+}
+
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+repo_root=$(cd "$script_dir/.." && pwd)
+skills_root="$repo_root/skills"
+
+target_dir=".github/skills"
+dry_run=0
+do_all=0
+positionals=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --dry-run)
+      dry_run=1
+      shift
+      ;;
+    --all)
+      do_all=1
+      shift
+      ;;
+    --target-dir)
+      [[ $# -ge 2 ]] || die "missing value for --target-dir"
+      target_dir=$2
+      shift 2
+      ;;
+    --target-dir=*)
+      target_dir=${1#--target-dir=}
+      shift
+      ;;
+    --)
+      shift
+      while [[ $# -gt 0 ]]; do
+        positionals+=("$1")
+        shift
+      done
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      positionals+=("$1")
+      shift
+      ;;
+  esac
+done
+
+[[ ${#positionals[@]} -ge 1 ]] || die "missing TARGET_REPO_PATH"
+
+target_repo=${positionals[${#positionals[@]} - 1]}
+skill_args=()
+if [[ ${#positionals[@]} -gt 1 ]]; then
+  skill_args=("${positionals[@]:0:${#positionals[@]} - 1}")
+fi
+
+[[ -d $target_repo ]] || die "not a directory: $target_repo"
+[[ -d $skills_root ]] || die "skills directory not found: $skills_root"
+[[ -n $target_dir && $target_dir != /* ]] || die "--target-dir must be a relative path"
+
+if [[ $do_all -eq 1 && ${#skill_args[@]} -gt 0 ]]; then
+  die "do not pass skill names with --all"
+fi
+if [[ $do_all -eq 0 && ${#skill_args[@]} -eq 0 ]]; then
+  die "specify --all or at least one skill"
+fi
+
+all_names=()
+shopt -s nullglob
+for dir in "$skills_root"/*/; do
+  all_names+=("$(basename "$dir")")
+done
+shopt -u nullglob
+
+if [[ ${#all_names[@]} -gt 0 ]]; then
+  mapfile -t all_names < <(printf '%s\n' "${all_names[@]}" | LC_ALL=C sort)
+fi
+
+selected=()
+contains_selected() {
+  local needle=$1
+  local existing
+  if [[ ${#selected[@]} -eq 0 ]]; then
+    return 1
+  fi
+  for existing in "${selected[@]}"; do
+    if [[ $existing == "$needle" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+add_selected() {
+  local name=$1
+  if ! contains_selected "$name"; then
+    selected+=("$name")
+  fi
+}
+
+if [[ $do_all -eq 1 ]]; then
+  if [[ ${#all_names[@]} -gt 0 ]]; then
+    selected=("${all_names[@]}")
+  fi
+else
+  for pattern in "${skill_args[@]}"; do
+    matched=0
+    for name in "${all_names[@]+"${all_names[@]}"}"; do
+      # Right-hand side is a glob on purpose (terraform-*).
+      # shellcheck disable=SC2053
+      if [[ $name == $pattern ]]; then
+        add_selected "$name"
+        matched=1
+      fi
+    done
+    if [[ $matched -eq 0 ]]; then
+      die "skill not found: $pattern"
+    fi
+  done
+fi
+
+replace_tree() {
+  local src=$1
+  local dest=$2
+  local parent stage
+  parent=$(dirname "$dest")
+  mkdir -p "$parent"
+  stage=$(mktemp -d "$parent/.jstack-sync.XXXXXX")
+  chmod 755 "$stage"
+  cp -a "$src/." "$stage/"
+  rm -rf "$dest"
+  mv "$stage" "$dest"
+}
+
+for name in "${selected[@]+"${selected[@]}"}"; do
+  src="$skills_root/$name"
+  [[ -f $src/SKILL.md ]] || die "skill not found: $name"
+  dest="$target_repo/$target_dir/$name"
+  status=update
+  if [[ -e $dest && ! -d $dest ]]; then
+    status=update
+  elif [[ ! -d $dest ]]; then
+    status=create
+  else
+    set +e
+    diff -rq "$src" "$dest" >/dev/null 2>&1
+    diff_rc=$?
+    set -e
+    if [[ $diff_rc -eq 0 ]]; then
+      status=unchanged
+    elif [[ $diff_rc -eq 1 ]]; then
+      status=update
+    else
+      die "could not compare $name"
+    fi
+  fi
+  if [[ $dry_run -eq 0 && $status != unchanged ]]; then
+    replace_tree "$src" "$dest"
+  fi
+  printf '%s %s\n' "$status" "$name"
+done
