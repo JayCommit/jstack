@@ -27,7 +27,7 @@ Skills live once in `skills/<name>/SKILL.md` using the open [Agent Skills format
 
 ## Layout
 
-```
+```text
 .cursor-plugin/plugin.json   Cursor plugin manifest
 plugin.json                  Generic agent-plugins manifest
 skills/<name>/SKILL.md       Source of truth for every skill and principle
@@ -36,6 +36,23 @@ docs/                        Guide and per-tool notes
 scripts/                     Sync, install and lint helpers
 AGENTS.md                    Cross-agent instructions
 .github/copilot-instructions.md  Copilot instructions for working on this repo
+```
+
+## Tooling
+
+- [`scripts/lint-skills`](scripts/lint-skills) checks `skills/<name>/SKILL.md` for frontmatter, naming, placeholders and relative links. The style guide is [Writing skills](docs/writing-skills.md).
+- [`scripts/sync`](scripts/sync) (and [`scripts/sync.ps1`](scripts/sync.ps1)) copies skills into another repo. It prints `create`, `update` or `unchanged` per skill. `--dry-run` changes nothing.
+
+```bash
+scripts/lint-skills
+scripts/sync --all /path/to/target-repo
+scripts/sync --target-dir .agents/skills 'terraform-*' /path/to/target-repo
+scripts/sync --dry-run --all /path/to/target-repo
+```
+
+```powershell
+./scripts/sync.ps1 -All -Target /path/to/target-repo
+./scripts/sync.ps1 -Skill terraform-* -TargetDir .agents/skills -Target /path/to/target-repo
 ```
 
 ## Licence

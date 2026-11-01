@@ -1,0 +1,457 @@
+#!/usr/bin/env python3
+"""Check jstack SKILL.md files for frontmatter, naming, secrets and links."""
+
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_SKILLS = REPO_ROOT / "skills"
+
+NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+KEY_RE = re.compile(r"^([A-Za-z][A-Za-z0-9_-]*):\s*(.*)$")
+DONE_RE = re.compile(r"^#{1,6}[ \t]+Done when[ \t]*$")
+LINK_RE = re.compile(r"(?<!!)\[(?:[^\]\n]*)\]\(([^)\n]+)\)")
+FENCE_RE = re.compile(r"(`{3,}|~{3,})(.*)$")
+
+# Patterns are split so this file does not itself contain a live-looking secret.
+AWS_KEY_RE = re.compile(
+    r"(?<![A-Z0-9])(?:" + "AKIA|ASIA" + r")[A-Z0-9]{16}(?![A-Z0-9])"
+)
+PRIVATE_KEY_RE = re.compile("-----BEGIN " + r"[A-Z0-9 ]*PRIVATE KEY-----")
+GITHUB_TOKEN_RE = re.compile(
+    r"(?<![A-Za-z0-9_])(?:ghp|gho|ghs|ghu)_[A-Za-z0-9]{16,}(?![A-Za-z0-9_])"
+    r"|github_pat_[A-Za-z0-9_]{16,}(?![A-Za-z0-9_])"
+)
+SLACK_TOKEN_RE = re.compile(
+    r"(?<![A-Za-z0-9])xox[baprs]-[A-Za-z0-9-]{10,}(?![A-Za-z0-9-])"
+)
+GENERIC_SECRET_RE = re.compile(
+    r"(?i)(?<![A-Za-z0-9_])(?:password|secret|token)\s*[:=]\s*"
+    r"\"([^\"\\]|\\.){8,}\""
+)
+GUID_RE = re.compile(
+    r"\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
+    r"[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b"
+)
+ACCOUNT_RE = re.compile(r"(?<![0-9])\d{12}(?![0-9])")
+IPV4_RE = re.compile(
+    r"\b(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})\.){3}"
+    r"(?:25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})\b"
+)
+SCHEME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
+
+PREFIXES = (
+    "terraform",
+    "azure",
+    "aws",
+    "pipelines",
+    "k8s",
+    "gitops",
+    "policy",
+    "ops",
+    "principle",
+)
+EXCEPTIONS = {"jay-mode", "setup-jstack"}
+
+
+class Finding:
+    def __init__(self, path: Path, line: int, level: str, message: str) -> None:
+        self.path = path
+        self.line = line
+        self.level = level
+        self.message = message
+
+
+def display_path(path: Path) -> str:
+    absolute = path if path.is_absolute() else Path.cwd() / path
+    try:
+        relative = absolute.resolve(strict=False).relative_to(Path.cwd().resolve())
+    except ValueError:
+        return path.as_posix()
+    return relative.as_posix()
+
+
+def parse_scalar(raw: str) -> str:
+    text = raw.strip()
+    if not text:
+        return ""
+    if text[0] == '"':
+        out: list[str] = []
+        index = 1
+        while index < len(text):
+            char = text[index]
+            if char == "\\":
+                if index + 1 >= len(text):
+                    break
+                escaped = text[index + 1]
+                out.append(
+                    {"n": "\n", "t": "\t", "r": "\r", '"': '"', "\\": "\\"}.get(
+                        escaped, escaped
+                    )
+                )
+                index += 2
+                continue
+            if char == '"':
+                return "".join(out)
+            out.append(char)
+            index += 1
+        return "".join(out)
+    if text[0] == "'":
+        out = []
+        index = 1
+        while index < len(text):
+            if text[index] == "'":
+                if index + 1 < len(text) and text[index + 1] == "'":
+                    out.append("'")
+                    index += 2
+                    continue
+                return "".join(out)
+            out.append(text[index])
+            index += 1
+        return "".join(out)
+    comment = re.match(r"^(.*?)(?:\s+#.*)?$", text)
+    if comment is None:
+        return text
+    return comment.group(1).strip()
+
+
+def fence_mask(lines: list[str]) -> list[bool]:
+    masked = [False] * len(lines)
+    active = False
+    open_char = ""
+    open_len = 0
+    for index, line in enumerate(lines):
+        stripped = line.lstrip(" ")
+        indent = len(line) - len(stripped)
+        match = FENCE_RE.match(stripped) if indent <= 3 else None
+        if match:
+            marks = match.group(1)
+            rest = match.group(2)
+            if not active:
+                if not (marks[0] == "`" and "`" in rest):
+                    active = True
+                    open_char = marks[0]
+                    open_len = len(marks)
+                    masked[index] = True
+                    continue
+            elif (
+                marks[0] == open_char
+                and len(marks) >= open_len
+                and rest.strip() == ""
+            ):
+                masked[index] = True
+                active = False
+                open_char = ""
+                open_len = 0
+                continue
+        if active:
+            masked[index] = True
+    return masked
+
+
+def known_area(name: str) -> bool:
+    if name in EXCEPTIONS:
+        return True
+    return any(name.startswith(prefix + "-") for prefix in PREFIXES)
+
+
+def guid_allowed(value: str) -> bool:
+    hex_chars = value.replace("-", "")
+    return len(set(hex_chars)) == 1
+
+
+def account_allowed(value: str) -> bool:
+    if value == "123456789012":
+        return True
+    return len(set(value)) == 1
+
+
+def ip_allowed(value: str) -> bool:
+    octets = tuple(int(part) for part in value.split("."))
+    first, second, third, _fourth = octets
+    if value == "0.0.0.0":
+        return True
+    if first == 10 or first == 127:
+        return True
+    if first == 172 and 16 <= second <= 31:
+        return True
+    if first == 192 and second == 168:
+        return True
+    if first == 192 and second == 0 and third == 2:
+        return True
+    if first == 198 and second == 51 and third == 100:
+        return True
+    if first == 203 and second == 0 and third == 113:
+        return True
+    return False
+
+
+def clean_link_target(raw: str) -> str:
+    target = raw.strip()
+    if not target:
+        return ""
+    if target.startswith("<"):
+        end = target.find(">")
+        target = target[1:end] if end != -1 else target[1:]
+    elif " " in target:
+        target = target.split()[0]
+    target = target.split("#", 1)[0]
+    target = target.split("?", 1)[0]
+    return target.strip()
+
+
+def add(
+    findings: list[Finding], path: Path, line: int, level: str, message: str
+) -> None:
+    findings.append(Finding(path, line, level, message))
+
+
+def check_secrets(path: Path, lines: list[str], findings: list[Finding]) -> None:
+    rules = (
+        (AWS_KEY_RE, "possible AWS access key ID"),
+        (PRIVATE_KEY_RE, "possible private key"),
+        (GITHUB_TOKEN_RE, "possible GitHub token"),
+        (SLACK_TOKEN_RE, "possible Slack token"),
+        (GENERIC_SECRET_RE, "possible hardcoded secret"),
+    )
+    for line_no, line in enumerate(lines, start=1):
+        for pattern, message in rules:
+            if pattern.search(line):
+                add(findings, path, line_no, "error", message)
+        for match in GUID_RE.finditer(line):
+            if not guid_allowed(match.group(0)):
+                add(findings, path, line_no, "error", "possible real GUID")
+        for match in ACCOUNT_RE.finditer(line):
+            if not account_allowed(match.group(0)):
+                add(findings, path, line_no, "error", "possible AWS account ID")
+        for match in IPV4_RE.finditer(line):
+            if not ip_allowed(match.group(0)):
+                add(findings, path, line_no, "error", "possible public IPv4 address")
+
+
+def check_links(path: Path, lines: list[str], findings: list[Finding]) -> None:
+    masked = fence_mask(lines)
+    for line_no, (line, hidden) in enumerate(zip(lines, masked), start=1):
+        if hidden:
+            continue
+        for match in LINK_RE.finditer(line):
+            target = clean_link_target(match.group(1))
+            if not target or target.startswith("#") or target.startswith("//"):
+                continue
+            if SCHEME_RE.match(target):
+                continue
+            destination = (path.parent / target).resolve(strict=False)
+            if not destination.is_file():
+                add(
+                    findings,
+                    path,
+                    line_no,
+                    "error",
+                    f"broken relative link '{target}'",
+                )
+
+
+def check_skill(path: Path, findings: list[Finding]) -> None:
+    try:
+        text = path.read_text(encoding="utf-8-sig")
+    except OSError as exc:
+        add(findings, path, 1, "error", f"cannot read file: {exc.strerror}")
+        return
+    except UnicodeError:
+        add(findings, path, 1, "error", "file is not valid UTF-8")
+        return
+
+    lines = text.splitlines()
+    folder = path.parent.name
+    fields: dict[str, tuple[str, int]] = {}
+    frontmatter_ok = False
+
+    if not lines or lines[0].strip() != "---":
+        add(
+            findings,
+            path,
+            1,
+            "error",
+            "missing YAML frontmatter (file must start with ---)",
+        )
+    else:
+        closing = None
+        for index in range(1, len(lines)):
+            if lines[index].strip() == "---":
+                closing = index
+                break
+        if closing is None:
+            add(findings, path, 1, "error", "unclosed YAML frontmatter")
+        else:
+            frontmatter_ok = True
+            for offset, raw_line in enumerate(lines[1:closing], start=2):
+                stripped = raw_line.strip()
+                if not stripped or stripped.startswith("#"):
+                    continue
+                key_match = KEY_RE.match(stripped)
+                if key_match is None:
+                    add(
+                        findings,
+                        path,
+                        offset,
+                        "error",
+                        "invalid frontmatter line",
+                    )
+                    continue
+                key = key_match.group(1)
+                value = parse_scalar(key_match.group(2))
+                if key in fields:
+                    add(
+                        findings,
+                        path,
+                        offset,
+                        "error",
+                        f"duplicate frontmatter key '{key}'",
+                    )
+                    continue
+                fields[key] = (value, offset)
+
+    name = ""
+    name_line = 1
+    if frontmatter_ok:
+        if "name" not in fields:
+            add(findings, path, 1, "error", "missing name")
+        else:
+            name, name_line = fields["name"]
+            if name != folder:
+                add(
+                    findings,
+                    path,
+                    name_line,
+                    "error",
+                    f"name '{name}' does not match folder '{folder}'",
+                )
+            if len(name) > 64:
+                add(
+                    findings,
+                    path,
+                    name_line,
+                    "error",
+                    f"name is {len(name)} characters, maximum is 64",
+                )
+            if not NAME_RE.fullmatch(name):
+                add(
+                    findings,
+                    path,
+                    name_line,
+                    "error",
+                    "name must match ^[a-z0-9]+(-[a-z0-9]+)*$",
+                )
+        if "description" not in fields:
+            add(findings, path, 1, "error", "missing description")
+        else:
+            description, description_line = fields["description"]
+            length = len(description)
+            if length < 50 or length > 1024:
+                add(
+                    findings,
+                    path,
+                    description_line,
+                    "error",
+                    f"description is {length} characters, want 50-1024",
+                )
+
+    check_secrets(path, lines, findings)
+    check_links(path, lines, findings)
+
+    label = name or folder
+    if label and not known_area(label):
+        add(
+            findings,
+            path,
+            name_line,
+            "warning",
+            f"name '{label}' does not use a known area prefix",
+        )
+    is_principle = label.startswith("principle-")
+    if not is_principle and not any(DONE_RE.match(line) for line in lines):
+        add(findings, path, 1, "warning", "missing 'Done when' heading")
+
+
+def collect(path: Path, findings: list[Finding]) -> list[Path]:
+    if not path.exists():
+        add(findings, path, 1, "error", "path not found")
+        return []
+    if path.is_file():
+        if path.name != "SKILL.md":
+            add(findings, path, 1, "error", "expected a skills directory or SKILL.md")
+            return []
+        return [path]
+    if not path.is_dir():
+        add(findings, path, 1, "error", "expected a skills directory or SKILL.md")
+        return []
+
+    skill_md = path / "SKILL.md"
+    if skill_md.is_file():
+        return [skill_md]
+
+    skills: list[Path] = []
+    children = sorted(
+        (
+            child
+            for child in path.iterdir()
+            if child.is_dir() and not child.name.startswith(".")
+        ),
+        key=lambda child: child.name,
+    )
+    for child in children:
+        child_skill = child / "SKILL.md"
+        if child_skill.is_file():
+            skills.append(child_skill)
+        else:
+            add(findings, child_skill, 1, "error", "missing SKILL.md")
+    return skills
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="lint-skills",
+        description=(
+            "Check jstack SKILL.md files for frontmatter, naming, secrets and links. "
+            "Each PATH is a skills directory or a single SKILL.md. "
+            "With no PATH, skills/ at the repo root is checked."
+        ),
+    )
+    parser.add_argument(
+        "paths",
+        nargs="*",
+        type=Path,
+        help="skills directory or SKILL.md (default: <repo>/skills)",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    targets = args.paths or [DEFAULT_SKILLS]
+    findings: list[Finding] = []
+    skill_files: list[Path] = []
+    for target in targets:
+        skill_files.extend(collect(target, findings))
+    for skill in skill_files:
+        check_skill(skill, findings)
+
+    findings.sort(key=lambda item: (display_path(item.path), item.line, item.level, item.message))
+    for item in findings:
+        print(f"{display_path(item.path)}:{item.line}: {item.level}: {item.message}")
+
+    errors = sum(1 for item in findings if item.level == "error")
+    warnings = sum(1 for item in findings if item.level == "warning")
+    checked = len(skill_files) + sum(
+        1 for item in findings if item.message == "missing SKILL.md"
+    )
+    print(f"summary: {checked} checked, {errors} error(s), {warnings} warning(s)")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

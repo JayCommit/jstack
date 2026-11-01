@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - "skills/**"
+      - "scripts/**"
+      - "tests/**"
+      - "docs/**"
+      - "agents/**"
+      - "AGENTS.md"
+      - "README.md"
+      - ".github/**"
+      - ".gitleaks.toml"
+      - ".markdownlint*"
+  push:
+    branches:
+      - main
+    paths:
+      - "skills/**"
+      - "scripts/**"
+      - "tests/**"
+      - "docs/**"
+      - "agents/**"
+      - "AGENTS.md"
+      - "README.md"
+      - ".github/**"
+      - ".gitleaks.toml"
+      - ".markdownlint*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-skills:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Lint skills
+        run: scripts/lint-skills
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -p "test_*.py"
+      - name: Sync script tests
+        run: bash tests/sync/test_sync.sh
+
+  markdownlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v25
+        with:
+          globs: |
+            **/*.md
+            !tests/**/fixtures/**
+
+  scripts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: shellcheck
+        run: shellcheck scripts/sync tests/sync/*.sh
+      - name: PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          $results = Invoke-ScriptAnalyzer -Path scripts -Recurse -Severity Warning,Error
+          if ($results) {
+            $results | Format-Table -AutoSize | Out-String | Write-Output
+            exit 1
+          }
+
+  gitleaks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

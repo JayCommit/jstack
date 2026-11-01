@@ -1,0 +1,10 @@
+title = "jstack"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Synthetic secrets planted in linter fixtures"
+paths = [
+  '''tests/lint-skills/fixtures/''',
+]
