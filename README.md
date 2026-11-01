@@ -1,12 +1,19 @@
 # jstack
 
-Jay's DevOps skill pack for AI coding agents. It's a set of skills, principles and agents for infrastructure and operations work: IaC, CI/CD, containers, Proxmox/Linux/Windows Server ops, incident response and change safety.
+Jay's DevOps skill pack for AI coding agents, focused on **Azure, AWS and Terraform** and the pipelines that ship them. It's a set of skills, principles and agents for:
+
+- **Terraform:** module design, plan review, state/backends/locking, drift, testing, tflint/checkov/tfsec
+- **Azure:** landing zones, RBAC/Entra ID, AKS, Key Vault, networking, Azure DevOps Pipelines, Bicep awareness, cost
+- **AWS:** IAM least privilege, Organizations/SCPs, VPC, EKS, ECS, Secrets Manager/SSM, CloudWatch, cost
+- **CI/CD:** GitHub Actions and Azure DevOps YAML pipelines, OIDC federation instead of static keys, environments/approvals, reusable workflows and templates, artifacts and releases
+- **Platform:** containers, Kubernetes, Helm, GitOps (Argo CD/Flux), policy as code (OPA, Sentinel, Azure Policy), observability
+- **Operations:** change safety, secrets, cost, incidents, runbooks and postmortems
 
 **Status:** scaffold only. Progress is tracked in [issue #1](../../issues/1).
 
 ## Inspiration and credit
 
-jstack is inspired by [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (MIT licence), part of [cursor/plugins](https://github.com/cursor/plugins). It follows pstack's layout (one folder per skill with a `SKILL.md`, `principle-*` skills, agents and a plugin manifest). The content here is written from scratch for DevOps work and is not copied from pstack.
+jstack is inspired by [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (MIT licence), part of [cursor/plugins](https://github.com/cursor/plugins). It follows pstack's layout (one folder per skill with a `SKILL.md`, `principle-*` skills, agents and a plugin manifest). The content here is written from scratch for cloud DevOps work and is not copied from pstack.
 
 ## One source, many agents
 

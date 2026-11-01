@@ -2,12 +2,27 @@
   "name": "jstack",
   "displayName": "jstack",
   "version": "0.0.1",
-  "description": "DevOps skill pack: IaC, CI/CD, containers, homelab ops, incident response and change safety.",
-  "author": { "name": "Jay" },
+  "description": "DevOps skill pack for Azure, AWS and Terraform: IaC, CI/CD pipelines (GitHub Actions, Azure DevOps), OIDC, Kubernetes, GitOps, policy as code, change safety.",
+  "author": {
+    "name": "Jay"
+  },
   "repository": "https://github.com/JayCommit/jstack",
   "license": "MIT",
   "category": "developer-tools",
-  "keywords": ["devops", "terraform", "github-actions", "kubernetes", "proxmox", "sre"],
+  "keywords": [
+    "devops",
+    "terraform",
+    "azure",
+    "aws",
+    "github-actions",
+    "azure-devops",
+    "oidc",
+    "kubernetes",
+    "helm",
+    "gitops",
+    "policy-as-code",
+    "sre"
+  ],
   "skills": "./skills/",
   "agents": "./agents/"
 }
