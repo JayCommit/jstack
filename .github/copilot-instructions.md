@@ -1,0 +1,1 @@
+Follow AGENTS.md in the repository root. Skills are in `skills/<name>/SKILL.md` using the Agent Skills format (frontmatter `name` and `description`). Keep examples free of real secrets, hostnames and IPs.

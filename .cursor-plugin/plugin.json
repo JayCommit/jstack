@@ -1,0 +1,13 @@
+{
+  "name": "jstack",
+  "displayName": "jstack",
+  "version": "0.0.1",
+  "description": "DevOps skill pack: IaC, CI/CD, containers, homelab ops, incident response and change safety.",
+  "author": { "name": "Jay" },
+  "repository": "https://github.com/JayCommit/jstack",
+  "license": "MIT",
+  "category": "developer-tools",
+  "keywords": ["devops", "terraform", "github-actions", "kubernetes", "proxmox", "sre"],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
