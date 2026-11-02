@@ -63,3 +63,11 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `pipelines-reusable-templates`: Pin shared workflows and actions to a commit SHA and Azure DevOps templates to a protected tag, and pass only the permissions and secrets each needs. Load `skills/pipelines-reusable-templates/SKILL.md` when you share pipeline logic across repos.
 - `pipelines-terraform-workflow`: Lint with no credential, plan on the pull request, and apply the saved plan after approval. Load `skills/pipelines-terraform-workflow/SKILL.md` when a pipeline runs Terraform.
 - `pipelines-artifacts-releases`: Build once, deploy the digest, and attach provenance and an SBOM. Load `skills/pipelines-artifacts-releases/SKILL.md` when you build, tag or promote an image or package.
+
+## Platform
+
+- `k8s-dockerfile-hardening`: Multi-stage build, a non-root user, a base image pinned by digest, and a scan before the push. Load `skills/k8s-dockerfile-hardening/SKILL.md` when you write or change a Dockerfile.
+- `k8s-manifest-review`: Requests, a memory limit, probes, a restricted security context, a disruption budget and a NetworkPolicy. Load `skills/k8s-manifest-review/SKILL.md` when you add or review a Kubernetes workload.
+- `k8s-helm-review`: A values schema, a rendered diff, and a rollback to the previous release. Load `skills/k8s-helm-review/SKILL.md` when you add or upgrade a Helm chart.
+- `gitops-argocd-flux`: Promote a digest through overlays, and keep secrets in SOPS or External Secrets. Load `skills/gitops-argocd-flux/SKILL.md` when you deliver with Argo CD or Flux.
+- `policy-as-code`: Conftest on the plan and the manifests, Azure Policy and admission in audit first, and SCPs left as the AWS ceiling. Load `skills/policy-as-code/SKILL.md` when you add or change a policy check.
