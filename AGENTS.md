@@ -40,3 +40,15 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `azure-key-vault`: RBAC authorization, purge protection, a private endpoint, and a federated reader on the vault. Load `skills/azure-key-vault/SKILL.md` when you create a vault or grant access to it.
 - `azure-bicep-awareness`: Compile, run what-if, and keep one owner per resource. Load `skills/azure-bicep-awareness/SKILL.md` when you read or take over a Bicep or ARM stack.
 - `azure-cost-review`: Estimate the change, set a budget, right-size from metrics, and list orphaned resources. Load `skills/azure-cost-review/SKILL.md` before a change that adds Azure spend.
+
+## AWS
+
+- `aws-iam-least-privilege`: Write the API calls the job makes, validate the policy, and keep AdministratorAccess off pipelines. Load `skills/aws-iam-least-privilege/SKILL.md` when you add or widen IAM.
+- `aws-organizations-scps`: Keep workloads out of the management account and treat an SCP as a ceiling. Load `skills/aws-organizations-scps/SKILL.md` when you add an account, an OU or an SCP.
+- `aws-vpc`: Private data subnets, gateway endpoints for S3 and DynamoDB, and security groups as the main control. Load `skills/aws-vpc/SKILL.md` when you change a VPC, route, endpoint or Transit Gateway.
+- `aws-eks`: Private API, Pod Identity for new pods, and one Kubernetes minor at a time. Load `skills/aws-eks/SKILL.md` when you create or upgrade EKS.
+- `aws-ecs`: Fargate, a separate task role, and a circuit breaker on the service. Load `skills/aws-ecs/SKILL.md` when you create or deploy an ECS service.
+- `aws-secrets-ssm`: Rotating credentials in Secrets Manager, other secrets as SecureString, and one ARN for the pipeline. Load `skills/aws-secrets-ssm/SKILL.md` when you store or read a secret.
+- `aws-cloudwatch`: Retention on every log group, and an alarm on the symptom the user hits. Load `skills/aws-cloudwatch/SKILL.md` when you add logs, metrics, alarms or a dashboard.
+- `aws-codepipeline-awareness`: Read the pipeline before you change it, and send a new deploy through GitHub Actions with OIDC. Load `skills/aws-codepipeline-awareness/SKILL.md` when you touch CodePipeline or CodeBuild.
+- `aws-cost-review`: Estimate the change, set a budget, and include NAT, public IPv4 and cross-AZ transfer. Load `skills/aws-cost-review/SKILL.md` before a change that adds AWS spend.
