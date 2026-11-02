@@ -71,3 +71,14 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `k8s-helm-review`: A values schema, a rendered diff, and a rollback to the previous release. Load `skills/k8s-helm-review/SKILL.md` when you add or upgrade a Helm chart.
 - `gitops-argocd-flux`: Promote a digest through overlays, and keep secrets in SOPS or External Secrets. Load `skills/gitops-argocd-flux/SKILL.md` when you deliver with Argo CD or Flux.
 - `policy-as-code`: Conftest on the plan and the manifests, Azure Policy and admission in audit first, and SCPs left as the AWS ceiling. Load `skills/policy-as-code/SKILL.md` when you add or change a policy check.
+
+## Operations
+
+- `ops-observability-alerts`: Page on a fast error-budget burn, ticket on a slow one, and put one runbook on the alert. Load `skills/ops-observability-alerts/SKILL.md` when you add an SLO, an alert or a dashboard.
+- `ops-incident-response`: Name a lead, mitigate with the rehearsed rollback, and update on a fixed cadence. Load `skills/ops-incident-response/SKILL.md` when production is failing.
+- `ops-runbook-authoring`: One command, the output you expect, and who to call when it does not appear. Load `skills/ops-runbook-authoring/SKILL.md` when you write or change a runbook.
+- `ops-postmortem`: A blameless timeline, contributing factors, and action items with owners and dates. Load `skills/ops-postmortem/SKILL.md` when a SEV1 or SEV2 is over.
+- `ops-secrets-handling`: One home for a secret, and rotation before a leak is closed. Load `skills/ops-secrets-handling/SKILL.md` when you store a secret or one has leaked.
+- `ops-rollback-plan`: The rehearsed rollback for a Terraform apply, a deploy, a migration, a network change or an IAM change. Load `skills/ops-rollback-plan/SKILL.md` before a change can reach production.
+- `ops-blast-radius`: List the subscription or account, the shared network, the state key and the pipeline before you apply. Load `skills/ops-blast-radius/SKILL.md` when a change can reach past the one object you mean to edit.
+- `ops-scripting-standards`: Fail closed, dry-run by default, and a second run changes nothing. Load `skills/ops-scripting-standards/SKILL.md` when you write a Bash, PowerShell or Python automation script.
