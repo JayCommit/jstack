@@ -1,0 +1,13 @@
+# Copy to backend.tf on a live root. Leave this example out of the test module.
+# Pass the state key per environment: terraform init -backend-config=envs/dev.backend.hcl
+# That file contains only: key = "app/dev.tfstate"
+
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "rg-tfstate"
+    storage_account_name = "stexampletfstate"
+    container_name       = "tfstate"
+    use_azuread_auth     = true
+    use_oidc             = true
+  }
+}

@@ -17,7 +17,7 @@ Read the failed step before you edit the workflow. A retry that goes green witho
 
 ## Steps
 
-1. Open the failed job and read the step that exited non-zero. Follow `principle-observe-before-you-fix`. Record the run id, the job name, the commit SHA and the `runs-on` label before you change the workflow.
+1. Open the failed job and read the step that exited non-zero. Follow `principle-observe-before-you-fix`. Record the run id, the job name, the commit SHA and the `runs-on` label before you change the workflow. An Azure DevOps run follows `pipelines-azure-devops-yaml` instead of this file.
 
 2. Pull the same evidence from the CLI. Watch a run that is still going. Re-run failed jobs only after you know why they failed.
 

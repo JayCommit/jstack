@@ -4,7 +4,7 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 
 - Each skill lives in `skills/<name>/SKILL.md`. The folder name and the `name` field must match and be lowercase-hyphenated.
 - Every `SKILL.md` needs YAML frontmatter with `name` and `description`. The description says what the skill does and when to use it.
-- Name skills by area prefix: `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, and `principle-*` for principles.
+- Name skills by area prefix: `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, and `principle-*` for principles. `jay-mode` and `setup-jstack` are the only names without a prefix.
 - Default to secure cloud practice in every example: OIDC/workload identity federation over static keys, least-privilege IAM/RBAC, pinned provider and action versions, remote state with locking.
 - Keep skills tool-neutral. Don't refer to tools that only one agent has without saying what to do elsewhere.
 - Don't copy text from pstack or other sources. Write it fresh.
@@ -57,7 +57,7 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 
 - `pipelines-github-actions-authoring`: Least-privilege `permissions:`, full-SHA pins, timeouts and concurrency, and event text kept out of `run:`. Load `skills/pipelines-github-actions-authoring/SKILL.md` when you write or change a GitHub Actions workflow.
 - `pipelines-github-actions-debugging`: Read the failing step's log and the run's inputs before you change anything, and fix the cause rather than re-run. Load `skills/pipelines-github-actions-debugging/SKILL.md` when a workflow run fails or hangs.
-- `pipelines-azure-devops-yaml`: YAML in the repo, stages for environments, build validation for pull requests, and workload identity service connections. Load `skills/pipelines-azure-devops-yaml/SKILL.md` when you write or change an Azure DevOps pipeline.
+- `pipelines-azure-devops-yaml`: YAML in the repo, stages for environments, build validation for pull requests, and workload identity service connections. Load `skills/pipelines-azure-devops-yaml/SKILL.md` when you write, change, or diagnose an Azure DevOps pipeline.
 - `pipelines-oidc-federation`: Federate to Azure and AWS with a narrow subject and audience, and copy Azure DevOps issuer and subject values rather than guess them. Load `skills/pipelines-oidc-federation/SKILL.md` when a pipeline needs cloud access.
 - `pipelines-environments-approvals`: Required reviewers, branch rules and environment secrets on production, with no admin bypass. Load `skills/pipelines-environments-approvals/SKILL.md` when you add or change a deploy gate.
 - `pipelines-reusable-templates`: Pin shared workflows and actions to a commit SHA and Azure DevOps templates to a protected tag, and pass only the permissions and secrets each needs. Load `skills/pipelines-reusable-templates/SKILL.md` when you share pipeline logic across repos.
@@ -82,3 +82,17 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `ops-rollback-plan`: The rehearsed rollback for a Terraform apply, a deploy, a migration, a network change or an IAM change. Load `skills/ops-rollback-plan/SKILL.md` before a change can reach production.
 - `ops-blast-radius`: List the subscription or account, the shared network, the state key and the pipeline before you apply. Load `skills/ops-blast-radius/SKILL.md` when a change can reach past the one object you mean to edit.
 - `ops-scripting-standards`: Fail closed, dry-run by default, and a second run changes nothing. Load `skills/ops-scripting-standards/SKILL.md` when you write a Bash, PowerShell or Python automation script.
+
+## Modes
+
+- `jay-mode`: Take the first matching row. That row names the one skill to load. Load `skills/jay-mode/SKILL.md` when several skills look relevant.
+- `setup-jstack`: Install the pack for Cursor, Copilot, or Claude Code, and prove the copy with a dry run. Load `skills/setup-jstack/SKILL.md` when you install jstack or sync a subset of skills.
+
+## Agents
+
+Personas live in `agents/`. The same files are in `.github/agents/` for Copilot. Change `agents/` first, then copy again. Copilot slash prompts are `.github/prompts/*.prompt.md`. Path rules are `.github/instructions/*.instructions.md`.
+
+- `terraform-reviewer`: Read the plan, flag destroys, grants, network edits, and provider bumps. Do not apply.
+- `pipeline-doctor`: Read the failing step, then fix the cause. Do not re-run the same revision and call that the fix.
+- `cloud-security-reviewer`: Review identity, exposure, and secrets. Do not grant access to clear a finding.
+- `incident-commander`: Set severity from user impact, mitigate with the rehearsed rollback, and keep the update cadence.

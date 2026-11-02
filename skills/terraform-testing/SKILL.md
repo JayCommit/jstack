@@ -46,7 +46,7 @@ Assert on a plan with `terraform test`. Apply only when the plan cannot answer t
    ```
 
 4. Do not point tests at production state. `terraform test` keeps temporary state for the run. Do not pass a production backend key and do not export a production state path.
-5. Use Terratest only when the test must apply. A provisioner side effect or a contract the plan cannot see is that case. A normal argument check stays on `command = plan`. Do not set `command = apply` against live providers on every pull request.
+5. Use Terratest only when the test must apply to a real cloud. A provisioner side effect or a contract the plan cannot see is that case. A normal argument check stays on `command = plan`. When `mock_provider` leaves a set unknown during plan, add a second run with `command = apply` in that same file. The mock still does not call Azure or AWS. Do not set `command = apply` against live providers on every pull request.
 6. Run that apply in an ephemeral subscription or account that holds no production data. Examples use subscription `00000000-0000-0000-0000-000000000000` and account `123456789012`. Never paste a real id. Authenticate with OIDC or workload identity federation. See `principle-no-static-credentials`. Grant only that ephemeral scope. See `principle-least-privilege`.
 7. Give the ephemeral job its own remote state key with locking. It is not the production key. Review the apply plan before that job applies it. See `principle-change-safety`.
 8. Destroy at the end of the same job. Save the destroy plan, then apply that file. In PowerShell, apply only when the plan command leaves `$LASTEXITCODE` at 0. If destroy fails, the job fails.
@@ -64,7 +64,7 @@ Assert on a plan with `terraform test`. Apply only when the plan cannot answer t
 
 ## Safety checks
 
-- Pull-request tests use `command = plan` and `mock_provider`. They do not apply production.
+- Pull-request tests use `mock_provider`. A plan run covers arguments the plan knows. A mock apply covers values the plan leaves unknown. Neither calls production.
 - The ephemeral account or subscription holds no production data, and its state key is not the production key.
 - Destroy is a saved plan applied at the end of the same job.
 - The test identity is federated and cannot write production state.

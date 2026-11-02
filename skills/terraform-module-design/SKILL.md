@@ -53,12 +53,14 @@ Build small modules and pin every published version. The root module configures 
    }
    ```
 
-6. Put `provider` blocks only in the root module. The root turns on OIDC there. Do not set `access_key` or `secret_key` on `aws`. Do not set a client secret on `azurerm`.
+6. Put `provider` blocks only in the root module. The root turns on OIDC there. `hashicorp/azurerm` 4.x requires `subscription_id` in that block. Do not set `access_key` or `secret_key` on `aws`. Do not set a client secret on `azurerm`.
 
    ```hcl
    provider "azurerm" {
      features {}
-     use_oidc = true
+
+     subscription_id = "00000000-0000-0000-0000-000000000000"
+     use_oidc        = true
    }
    ```
 

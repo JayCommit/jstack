@@ -62,6 +62,8 @@ A principle (`principle-*`) is a short rule. It may omit Steps and Rollback. Eve
 
 Helper files may sit next to `SKILL.md`. A relative Markdown link must point at a file that exists beside the skill. Links inside fenced code blocks are not checked. `http`, `https`, `mailto` and `#anchor` links are left alone.
 
+Each skill also has `tests/prompts.md` in that folder. It holds two example asks and the behaviour that skill requires. Ask 1 records the first step or rule. Ask 2 records the next one when the skill has it. `tests/test_prompt_files.py` fails when the file is missing or when those two lines are the same step. These asks are not a record that someone ran the skill in Cursor, Copilot, or Claude Code.
+
 ## Secure defaults
 
 Examples in a skill use:
