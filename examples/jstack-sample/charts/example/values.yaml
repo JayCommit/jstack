@@ -1,0 +1,4 @@
+replicaCount: 2
+image:
+  repository: example.com/example
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000

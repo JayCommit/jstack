@@ -1,0 +1,38 @@
+# Workload identity service connection. Copy issuer and subject from
+# sc-example-production. Do not invent them and do not store a client secret.
+trigger:
+  - main
+
+pr:
+  - main
+
+stages:
+  - stage: test
+    jobs:
+      - job: plan
+        timeoutInMinutes: 20
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+          - bash: echo "This sample plans with terraform test. It does not apply."
+
+  - stage: production
+    dependsOn: test
+    jobs:
+      - deployment: deploy_example
+        timeoutInMinutes: 30
+        environment: production
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  inputs:
+                    azureSubscription: sc-example-production
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: echo "Federated connection sc-example-production. No secret in this file."

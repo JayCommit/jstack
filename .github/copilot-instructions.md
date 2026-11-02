@@ -1,3 +1,5 @@
 # Copilot instructions
 
 Follow AGENTS.md in the repository root. jstack covers Azure, AWS, Terraform and CI/CD pipelines (GitHub Actions, Azure DevOps). Skills are in `skills/<name>/SKILL.md` using the Agent Skills format (frontmatter `name` and `description`). Prefer OIDC federation over static cloud keys, least-privilege IAM/RBAC and pinned versions in all examples. Keep examples free of real secrets, tenant/subscription/account IDs, hostnames and IPs.
+
+Path rules for the files you edit are in `.github/instructions/`. Personas are in `.github/agents/`. Slash prompts are in `.github/prompts/`.

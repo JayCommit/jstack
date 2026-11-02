@@ -9,7 +9,7 @@ Jay's DevOps skill pack for AI coding agents, focused on **Azure, AWS and Terraf
 - **Platform:** containers, Kubernetes, Helm, GitOps (Argo CD/Flux), policy as code (OPA, Sentinel, Azure Policy), observability
 - **Operations:** change safety, secrets, cost, incidents, runbooks and postmortems
 
-**Status:** principles, Terraform, Azure, AWS, pipelines, platform and operations skills are in. Specialist agent personas are not written yet. Progress is tracked in [issue #1](../../issues/1).
+**Status:** principles, Terraform, Azure, AWS, pipelines, platform, operations, `jay-mode`, `setup-jstack`, and the four specialist agents are in. The sample stack is `examples/jstack-sample`. Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is tracked in [issue #1](../../issues/1).
 
 ## Inspiration and credit
 
@@ -22,7 +22,7 @@ Skills live once in `skills/<name>/SKILL.md` using the open [Agent Skills format
 | Tool | How it picks jstack up |
 | --- | --- |
 | Cursor | Plugin manifest at `.cursor-plugin/plugin.json` (`skills: ./skills/`, `agents: ./agents/`) |
-| GitHub Copilot (VS Code, CLI, cloud agent, code review) | `gh skill install JayCommit/jstack` into `~/.copilot/skills` / `.agents/skills`, or `scripts/sync` copies skills into a repo's `.github/skills` |
+| GitHub Copilot (VS Code, CLI, cloud agent, code review) | `gh skill install JayCommit/jstack --all --scope user --agent github-copilot`, or `scripts/sync` into a repo. Follow `setup-jstack`. |
 | Claude Code, Codex, Gemini CLI and other agents | `AGENTS.md` plus `.agents/skills` / `.claude/skills` |
 
 ## Layout
@@ -31,7 +31,10 @@ Skills live once in `skills/<name>/SKILL.md` using the open [Agent Skills format
 .cursor-plugin/plugin.json   Cursor plugin manifest
 plugin.json                  Generic agent-plugins manifest
 skills/<name>/SKILL.md       Source of truth for every skill and principle
-agents/                      Specialist agent personas
+agents/                      Specialist agent personas (copied to .github/agents)
+.github/prompts/             Copilot slash prompts
+.github/instructions/        Copilot path rules
+examples/jstack-sample/      Fixture stack. Nothing in it is applied.
 docs/                        Guide and per-tool notes
 scripts/                     Sync, install and lint helpers
 AGENTS.md                    Cross-agent instructions
