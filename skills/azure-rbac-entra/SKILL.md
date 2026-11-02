@@ -63,7 +63,7 @@ Grant the actions the job needs, at the smallest scope that covers them. Do not 
 
 10. Keep Owner, User Access Administrator and Role Based Access Control Administrator off pipeline identities. Those roles can grant Owner. If a pipeline must create role assignments, use a custom role limited to the role definitions it assigns, at that scope only.
 
-11. If Terraform applies the assignment, pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5`. Use a remote backend with the blob lease lock and `use_azuread_auth`. Save `terraform plan -out=tfplan`. A new role assignment is a production-class change. Follow `principle-change-safety`. Codify a portal grant or remove it. Follow `principle-everything-as-code`.
+11. If Terraform applies the assignment, pin versions and store state as in `terraform-module-design` and `terraform-state-backends`. Save `terraform plan -out=tfplan`. A new role assignment is a production-class change. Load `principle-change-safety` before you apply. Load `principle-everything-as-code` when the grant was made in the portal.
 
 ## Safety checks
 

@@ -25,11 +25,11 @@ Price the change before you ship it. NAT gateways, public IPv4 addresses, interf
    aws ce get-cost-and-usage --time-period Start=2026-10-01,End=2026-11-01 --granularity MONTHLY --metrics UnblendedCost --group-by Type=DIMENSION,Key=SERVICE
    ```
 
-3. Set a monthly budget on the account that will grow. Alert at 50 percent, 80 percent and 100 percent of the amount. Record the amount on the change. A budget action that stops production resources is not part of this budget. A new account without a budget is incomplete. Follow `aws-organizations-scps`.
+3. Set a monthly budget on the account that will grow. Alert at 50 percent, 80 percent and 100 percent of the amount. Record the amount on the change. A budget action that stops production resources is not part of this budget. When the change creates an account, load `aws-organizations-scps`. A new account without a budget is incomplete.
 
 4. Recommend a Compute Savings Plan only after the same usage has been steady. Do not recommend one from the first bill, or while the size is still changing. An EC2 Instance Savings Plan is narrower. Use it when the instance family is the commitment you mean. A Reserved Instance is for a capacity reservation a Savings Plan does not give you. Name the term and the monthly commitment. A one-year or three-year commit is its own reviewed decision.
 
-5. Right-size from Compute Optimizer and from the metric, not from the instance picker. Opt the account in before you treat an empty recommendation as a clean bill. Read CPU, memory and network for the resource. Follow `principle-observe-before-you-fix`. Keep dev and test smaller than production, and stop what can stop outside working hours.
+5. Right-size from Compute Optimizer and from the metric, not from the instance picker. Opt the account in before you treat an empty recommendation as a clean bill. Read CPU, memory and network for the resource before you change its size. Load `principle-observe-before-you-fix` when the resize is a response to an incident. Keep dev and test smaller than production, and stop what can stop outside working hours.
 
    ```bash
    aws compute-optimizer get-ec2-instance-recommendations --region eu-west-2
@@ -44,15 +44,15 @@ Price the change before you ship it. NAT gateways, public IPv4 addresses, interf
    aws ec2 describe-nat-gateways --region eu-west-2 --filter Name=state,Values=available --query "NatGateways[].[NatGatewayId,SubnetId,State.State]" --output table
    ```
 
-7. A public IPv4 address has an hourly charge while it exists, associated or not. An unassociated address is waste. An associated address is still a line in the estimate. Prefer a gateway endpoint for S3 and DynamoDB over NAT for that traffic. An interface endpoint replaces NAT only when its hourly cost is lower than the NAT data you measured. Follow `aws-vpc`.
+7. A public IPv4 address has an hourly charge while it exists, associated or not. An unassociated address is waste. An associated address is still a line in the estimate. Prefer a gateway endpoint for S3 and DynamoDB over NAT for that traffic. An interface endpoint replaces NAT only when its hourly cost is lower than the NAT data you measured. Load `aws-vpc` when the change adds a NAT gateway or a VPC endpoint.
 
-8. For each load balancer, check target health and request count. A balancer with no healthy targets and a flat request count is idle. Confirm with the metric before you call it idle. Snapshot an EBS volume before any later delete. A volume delete without a snapshot is not reversible. Follow `principle-rollback-first`.
+8. For each load balancer, check target health and request count. A balancer with no healthy targets and a flat request count is idle. Confirm with the metric before you call it idle. Snapshot an EBS volume before any later delete. A volume delete without a snapshot is not reversible.
 
-9. Check log retention on groups this change adds. Follow `aws-cloudwatch`. EKS extended support is a higher control plane price. Do not land a new cluster there. Follow `aws-eks`.
+9. When this change adds a log group, load `aws-cloudwatch` and set its retention. When it creates a cluster, load `aws-eks`. Extended support is a higher control plane price. Do not land a new cluster there.
 
-10. The identity that reads cost gets Cost Explorer read and Compute Optimizer read. It does not get `AdministratorAccess`. Authenticate with the OIDC role. Follow `aws-iam-least-privilege` and `principle-no-static-credentials`.
+10. The identity that reads cost gets Cost Explorer read and Compute Optimizer read. It does not get `AdministratorAccess`. When a pipeline reads cost, load `aws-iam-least-privilege` and `principle-no-static-credentials`. Authenticate with the OIDC role.
 
-11. A resize, a Savings Plan purchase or a delete still goes through a reviewed plan. Follow `terraform-plan-review` and `terraform-state-backends` when Terraform applies it. Name the account and the resources. Follow `principle-change-safety`.
+11. A resize, a Savings Plan purchase or a delete still goes through a reviewed plan. When Terraform applies it, load `terraform-plan-review` and `terraform-state-backends`. Name the account and the resources. Load `principle-change-safety` before you apply.
 
 12. After apply, compare Cost Explorer with the estimate. If the bill is well above it, stop. Do not buy a Savings Plan to hide the gap.
 

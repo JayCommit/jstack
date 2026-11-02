@@ -53,7 +53,7 @@ Send spoke traffic through the hub firewall. Peering is not transitive. Name eve
 
 9. Authenticate the pipeline with workload identity federation, scoped to the connectivity subscription or the spoke resource group it owns. No client secret, no storage account key, and no service principal password. Follow `principle-least-privilege` and `principle-no-static-credentials`.
 
-10. If Terraform applies the network, pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5`. Use a remote backend with the blob lease lock and Azure AD auth. Run `terraform plan -out=tfplan`. Name the blast radius: subscriptions, region, VNets, route `default-to-firewall`, peerings `peer-hub-to-spoke-example` and `peer-spoke-to-hub-example`, and DNS link `link-hub-example`. Follow `principle-change-safety`. Price a new firewall or public IP before you apply. Follow `principle-cost-awareness`. Import portal peerings or revert them. Follow `principle-everything-as-code`.
+10. If Terraform applies the network, pin versions and store state as in `terraform-module-design` and `terraform-state-backends`. Run `terraform plan -out=tfplan`. Name the blast radius: subscriptions, region, VNets, route `default-to-firewall`, peerings `peer-hub-to-spoke-example` and `peer-spoke-to-hub-example`, and DNS link `link-hub-example`. Load `principle-change-safety` before you apply. Load `principle-cost-awareness` when the change adds a firewall or a public IP. Load `principle-everything-as-code` when a peering was created in the portal.
 
 ## Safety checks
 

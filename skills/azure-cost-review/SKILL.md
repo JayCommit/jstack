@@ -50,7 +50,7 @@ Price the change before you ship it. A cost change still goes through a reviewed
 
 11. The identity that reads cost gets Cost Management Reader on the subscription or the resource group. It does not get Owner. Authenticate with workload identity federation. No client secret and no storage account key. Follow `principle-least-privilege` and `principle-no-static-credentials`.
 
-12. A resize, a reservation or a delete still goes through `terraform plan -out=tfplan` or `az deployment group what-if`. Pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5` when Terraform applies it. Use a remote backend with the blob lease lock and Azure AD auth. Name the blast radius. Follow `principle-change-safety`. Import a portal resize or revert it. Follow `principle-everything-as-code`.
+12. A resize, a reservation or a delete still goes through `terraform plan -out=tfplan` or `az deployment group what-if`. When Terraform applies it, pin versions and store state as in `terraform-module-design` and `terraform-state-backends`. Name the blast radius. Load `principle-change-safety` before you apply. Load `principle-everything-as-code` when the resize was made in the portal.
 
 13. After apply, open Cost Management again and compare the new resources with the estimate. If the bill is well above it, stop. Do not buy a reservation to hide the gap.
 

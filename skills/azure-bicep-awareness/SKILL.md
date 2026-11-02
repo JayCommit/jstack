@@ -35,7 +35,7 @@ Read the template, compile it, and preview the deployment. One tool owns each re
 
 5. Leave the stack in Bicep when it is Azure-only and Bicep or a deployment stack already owns it. Do not start a Terraform copy of the same resources. Do not pass `--mode Complete` unless the change record lists every delete and a second person has approved it. The default mode is Incremental.
 
-6. Move to Terraform only when the rest of that environment is already Terraform. Map each resource to an `azurerm` address. Pin the live names so Terraform does not rename or replace. Pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5`. Use a remote backend with the blob lease lock and Azure AD auth. No storage account key.
+6. Move to Terraform only when the rest of that environment is already Terraform. Map each resource to an `azurerm` address. Pin the live names so Terraform does not rename or replace. Pin versions and store state as in `terraform-module-design` and `terraform-state-backends`.
 
    ```hcl
    import {

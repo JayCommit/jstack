@@ -53,11 +53,11 @@ Use RBAC on a new vault. Keep values out of logs, plan output and git. Applicati
    az keyvault show --name kv-example --resource-group rg-example --query "{rbac:properties.enableRbacAuthorization,publicNetwork:properties.publicNetworkAccess}" --output json
    ```
 
-9. If Terraform must write a secret, mark the variable sensitive, write no output, and do not run `terraform state show` or `terraform output` on that address in a log. Treat state as sensitive. Pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5`. Use a remote backend with the blob lease lock and Azure AD auth. Stop if the plan prints a plaintext value. Prefer the app or a rotation job to write the value so it never enters state.
+9. If Terraform must write a secret, mark the variable sensitive, write no output, and do not run `terraform state show` or `terraform output` on that address in a log. Treat state as sensitive. Pin versions and store state as in `terraform-module-design` and `terraform-state-backends`. Stop if the plan prints a plaintext value. Prefer the app or a rotation job to write the value so it never enters state.
 
 10. Give every rotation an owner and a next date on the change. Set an expiry when the secret is written. Do not put the value on the command line or in the pull request. For a key that supports a rotation policy, record the policy expiry and the owner. A date with no owner is not a rotation plan.
 
-11. Name the blast radius: subscription, resource group, vault, private endpoint, DNS zone and pipeline. One change. Follow `principle-change-safety`. A new vault or a Premium SKU is a cost change. Follow `principle-cost-awareness`. Import a portal vault or revert it. Follow `principle-everything-as-code`.
+11. Name the blast radius: subscription, resource group, vault, private endpoint, DNS zone and pipeline. One change. Load `principle-change-safety` before you apply. Load `principle-cost-awareness` when the vault is new or Premium. Load `principle-everything-as-code` when the vault was created in the portal.
 
 ## Safety checks
 

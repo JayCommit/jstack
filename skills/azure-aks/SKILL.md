@@ -17,13 +17,13 @@ Create a private cluster with Azure RBAC and workload identity. Upgrade one mino
 
 ## Steps
 
-1. Read the cluster before you change it. Run `az aks show --resource-group rg-example --name aks-example --output table` and `az aks get-upgrades --resource-group rg-example --name aks-example --output table`. Record the current version, the node pool versions and the error text if something is unhealthy. Follow `principle-observe-before-you-fix`. Do not restart nodes as the first step.
+1. Read the cluster before you change it. Run `az aks show --resource-group rg-example --name aks-example --output table` and `az aks get-upgrades --resource-group rg-example --name aks-example --output table`. Record the current version, the node pool versions and the error text if something is unhealthy. Load `principle-observe-before-you-fix` when the cluster is unhealthy. Do not restart nodes as the first step.
 
 2. Use a private cluster when the network can reach a private API server. If it cannot, stop and add that path. Do not switch the API server to public to get unblocked. Follow `azure-networking` for the spoke path.
 
 3. Use Azure CNI overlay unless the design needs a subnet address per pod. Turn network policy on. Use Azure network policy unless the design already chose Cilium. Keep local accounts disabled. Turn on Azure RBAC for Kubernetes authorization, the OIDC issuer and workload identity. Do not pass `--enable-pod-identity`. Do not install AAD pod-identity. If that addon is already on, remove it in its own change before you add workload identity.
 
-4. Keep a system node pool for system pods only. Put application pods on user node pools. Create the user-assigned identity `id-aks-example` before the cluster and pass it as `--assign-identity`. Do not copy the production VM size into dev or test. Price the node SKU and the count before you apply. Follow `principle-cost-awareness`.
+4. Keep a system node pool for system pods only. Put application pods on user node pools. Create the user-assigned identity `id-aks-example` before the cluster and pass it as `--assign-identity`. Do not copy the production VM size into dev or test. Price the node SKU and the count before you apply. Load `principle-cost-awareness` when the change adds nodes or a larger SKU.
 
    ```bash
    az aks create --resource-group rg-example --name aks-example --location uksouth --kubernetes-version 1.31.1 --network-plugin azure --network-plugin-mode overlay --network-policy azure --enable-private-cluster --disable-local-accounts --enable-aad --enable-azure-rbac --enable-oidc-issuer --enable-workload-identity --assign-identity /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-example --nodepool-name system --node-count 2
@@ -32,9 +32,9 @@ Create a private cluster with Azure RBAC and workload identity. Upgrade one mino
 
 5. Replace `1.31.1` with the full patch you planned. It must appear in `az aks get-upgrades` or `az aks get-versions --location uksouth --output table`. Do not pass `latest`. Do not commit an SSH private key. Disable node SSH if the CLI requires a key and the design does not need SSH.
 
-6. Authenticate the pipeline and the pods with workload identity federation. No client secret and no service principal password. The cluster identity and the deploy identity are user-assigned managed identities. Follow `principle-no-static-credentials` and `azure-rbac-entra`. Grant Azure Kubernetes Service Cluster User Role only to callers who may fetch a non-admin kubeconfig. Grant Azure Kubernetes Service RBAC Writer to deployers. Do not grant RBAC Cluster Admin to every pipeline. Do not run `az aks get-credentials --admin`. Follow `principle-least-privilege`.
+6. Authenticate the pipeline and the pods with workload identity federation. No client secret and no service principal password. The cluster identity and the deploy identity are user-assigned managed identities. When you add that federation, load `principle-no-static-credentials` and `azure-rbac-entra`. Grant Azure Kubernetes Service Cluster User Role only to callers who may fetch a non-admin kubeconfig. Grant Azure Kubernetes Service RBAC Writer to deployers. Do not grant RBAC Cluster Admin to every pipeline. Do not run `az aks get-credentials --admin`.
 
-7. If Terraform owns the cluster, pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5`. Use a remote backend with the blob lease lock and Azure AD auth. Do not set a storage account key. Codify portal edits. Follow `principle-everything-as-code`.
+7. If Terraform owns the cluster, pin versions and store state as in `terraform-module-design` and `terraform-state-backends`. Load `principle-everything-as-code` when the cluster was edited in the portal.
 
 8. Upgrade one Kubernetes minor at a time. Do not skip a minor. Turn cluster autoupgrade off only as its own reviewed change. Autoupgrade blocks `--control-plane-only`.
 
@@ -48,11 +48,11 @@ Create a private cluster with Azure RBAC and workload identity. Upgrade one mino
     az aks nodepool upgrade --resource-group rg-example --cluster-name aks-example --name user --kubernetes-version 1.31.1
     ```
 
-11. Name the blast radius: subscription, resource group, cluster, node pools, state key and pipeline. One change. Follow `principle-change-safety`.
+11. Name the blast radius: subscription, resource group, cluster, node pools, state key and pipeline. One change. Load `principle-change-safety` before you apply.
 
 12. Confirm the result. `az aks show --resource-group rg-example --name aks-example --query kubernetesVersion --output tsv` must be the patch you planned. `az aks nodepool list --resource-group rg-example --cluster-name aks-example --output table` must show that same patch on the user pool before you promote.
 
-13. Federate each workload identity to its Kubernetes service account. The subject is `system:serviceaccount:<namespace>:<service-account>`. Take the issuer from `az aks show --resource-group rg-example --name aks-example --query oidcIssuerProfile.issuerUrl --output tsv`. The audience is `api://AzureADTokenExchange`. Do not print the token. Follow `azure-rbac-entra`.
+13. Federate each workload identity to its Kubernetes service account. The subject is `system:serviceaccount:<namespace>:<service-account>`. Take the issuer from `az aks show --resource-group rg-example --name aks-example --query oidcIssuerProfile.issuerUrl --output tsv`. The audience is `api://AzureADTokenExchange`. Do not print the token. Load `azure-rbac-entra` when you create that federated credential.
 
 ## Safety checks
 
