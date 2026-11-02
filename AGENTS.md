@@ -52,3 +52,14 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `aws-cloudwatch`: Retention on every log group, and an alarm on the symptom the user hits. Load `skills/aws-cloudwatch/SKILL.md` when you add logs, metrics, alarms or a dashboard.
 - `aws-codepipeline-awareness`: Read the pipeline before you change it, and send a new deploy through GitHub Actions with OIDC. Load `skills/aws-codepipeline-awareness/SKILL.md` when you touch CodePipeline or CodeBuild.
 - `aws-cost-review`: Estimate the change, set a budget, and include NAT, public IPv4 and cross-AZ transfer. Load `skills/aws-cost-review/SKILL.md` before a change that adds AWS spend.
+
+## Pipelines
+
+- `pipelines-github-actions-authoring`: Least-privilege `permissions:`, full-SHA pins, timeouts and concurrency, and event text kept out of `run:`. Load `skills/pipelines-github-actions-authoring/SKILL.md` when you write or change a GitHub Actions workflow.
+- `pipelines-github-actions-debugging`: Read the failing step's log and the run's inputs before you change anything, and fix the cause rather than re-run. Load `skills/pipelines-github-actions-debugging/SKILL.md` when a workflow run fails or hangs.
+- `pipelines-azure-devops-yaml`: YAML in the repo, stages for environments, build validation for pull requests, and workload identity service connections. Load `skills/pipelines-azure-devops-yaml/SKILL.md` when you write or change an Azure DevOps pipeline.
+- `pipelines-oidc-federation`: Federate to Azure and AWS with a narrow subject and audience, and copy Azure DevOps issuer and subject values rather than guess them. Load `skills/pipelines-oidc-federation/SKILL.md` when a pipeline needs cloud access.
+- `pipelines-environments-approvals`: Required reviewers, branch rules and environment secrets on production, with no admin bypass. Load `skills/pipelines-environments-approvals/SKILL.md` when you add or change a deploy gate.
+- `pipelines-reusable-templates`: Pin shared workflows and actions to a commit SHA and Azure DevOps templates to a protected tag, and pass only the permissions and secrets each needs. Load `skills/pipelines-reusable-templates/SKILL.md` when you share pipeline logic across repos.
+- `pipelines-terraform-workflow`: Lint with no credential, plan on the pull request, and apply the saved plan after approval. Load `skills/pipelines-terraform-workflow/SKILL.md` when a pipeline runs Terraform.
+- `pipelines-artifacts-releases`: Build once, deploy the digest, and attach provenance and an SBOM. Load `skills/pipelines-artifacts-releases/SKILL.md` when you build, tag or promote an image or package.
