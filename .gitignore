@@ -11,3 +11,11 @@ __pycache__/
 .env.*
 *.log
 dist/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+tfplan-*
+crash.log
+.alzlib

@@ -25,7 +25,7 @@ Place each workload in the existing landing-zone hierarchy. Do not add a second 
 
 4. Pin Terraform `1.10.5` and the reviewed module. `Azure/avm-ptn-alz/azurerm` `0.12.3` is the example pin. Replace that pin only with a release you have reviewed. That module requires `azure/alz` on the `0.17` line and `azure/azapi` on the `2.2` line. Pin the exact releases you reviewed, such as `azure/alz` `0.17.4` and `azure/azapi` `2.2.0`. Pin `hashicorp/azurerm` `4.14.0` when the same root also manages AzureRM resources. Do not use a floating constraint. An open range is not a pin.
 
-5. Keep state in the management subscription, in a storage account that already exists before this apply. Use Azure AD auth and the backend blob lease as the lock. Do not pass a storage account key. Do not share the state key with another pipeline. Add `.alzlib` to `.gitignore`. Pass literals into the module. Do not set `depends_on` on it, and do not pass values that are known only after apply.
+5. Keep state in the management subscription, in a storage account that already exists before this apply. Use Azure AD auth and the backend blob lease as the lock. Do not pass a storage account key. Do not share the state key with another pipeline. Add `.alzlib` to `.gitignore`. Pass literals into the module. Set `enable_telemetry` to false. Turn it on only after the team has accepted the module sending usage data. Do not set `depends_on` on it, and do not pass values that are known only after apply.
 
    ```hcl
    terraform {
@@ -63,6 +63,7 @@ Place each workload in the existing landing-zone hierarchy. Do not add a second 
      architecture_name  = "alz"
      location           = "uksouth"
      parent_resource_id = "00000000-0000-0000-0000-000000000000"
+     enable_telemetry   = false
    }
    ```
 

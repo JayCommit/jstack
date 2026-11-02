@@ -2,14 +2,14 @@
 
 Jay's DevOps skill pack for AI coding agents, focused on **Azure, AWS and Terraform** and the pipelines that ship them. It's a set of skills, principles and agents for:
 
-- **Terraform:** module design, plan review, state/backends/locking, drift, testing, tflint/checkov/tfsec
+- **Terraform:** module design, plan review, state/backends/locking, drift, testing, tflint/checkov/Trivy
 - **Azure:** landing zones, RBAC/Entra ID, AKS, Key Vault, networking, Azure DevOps Pipelines, Bicep awareness, cost
 - **AWS:** IAM least privilege, Organizations/SCPs, VPC, EKS, ECS, Secrets Manager/SSM, CloudWatch, cost
 - **CI/CD:** GitHub Actions and Azure DevOps YAML pipelines, OIDC federation instead of static keys, environments/approvals, reusable workflows and templates, artifacts and releases
 - **Platform:** containers, Kubernetes, Helm, GitOps (Argo CD/Flux), policy as code (OPA, Sentinel, Azure Policy), observability
 - **Operations:** change safety, secrets, cost, incidents, runbooks and postmortems
 
-**Status:** scaffold only. Progress is tracked in [issue #1](../../issues/1).
+**Status:** principles, Terraform and Azure skills are in. AWS, pipelines, platform and operations playbooks are still open. Specialist agent personas are not written yet. Progress is tracked in [issue #1](../../issues/1).
 
 ## Inspiration and credit
 

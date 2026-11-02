@@ -23,10 +23,10 @@ Create a private cluster with Azure RBAC and workload identity. Upgrade one mino
 
 3. Use Azure CNI overlay unless the design needs a subnet address per pod. Turn network policy on. Use Azure network policy unless the design already chose Cilium. Keep local accounts disabled. Turn on Azure RBAC for Kubernetes authorization, the OIDC issuer and workload identity. Do not pass `--enable-pod-identity`. Do not install AAD pod-identity. If that addon is already on, remove it in its own change before you add workload identity.
 
-4. Keep a system node pool for system pods only. Put application pods on user node pools. Do not copy the production VM size into dev or test. Price the node SKU and the count before you apply. Follow `principle-cost-awareness`.
+4. Keep a system node pool for system pods only. Put application pods on user node pools. Create the user-assigned identity `id-aks-example` before the cluster and pass it as `--assign-identity`. Do not copy the production VM size into dev or test. Price the node SKU and the count before you apply. Follow `principle-cost-awareness`.
 
    ```bash
-   az aks create --resource-group rg-example --name aks-example --location uksouth --kubernetes-version 1.31.1 --network-plugin azure --network-plugin-mode overlay --network-policy azure --enable-private-cluster --disable-local-accounts --enable-aad --enable-azure-rbac --enable-oidc-issuer --enable-workload-identity --nodepool-name system --node-count 2
+   az aks create --resource-group rg-example --name aks-example --location uksouth --kubernetes-version 1.31.1 --network-plugin azure --network-plugin-mode overlay --network-policy azure --enable-private-cluster --disable-local-accounts --enable-aad --enable-azure-rbac --enable-oidc-issuer --enable-workload-identity --assign-identity /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-example --nodepool-name system --node-count 2
    az aks nodepool add --resource-group rg-example --cluster-name aks-example --name user --mode User --node-count 2 --max-surge 1
    ```
 

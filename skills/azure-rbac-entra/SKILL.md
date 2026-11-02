@@ -53,10 +53,10 @@ Grant the actions the job needs, at the smallest scope that covers them. Do not 
 
 7. Give each workload a user-assigned managed identity. Do not create a service principal password. Do not use a system-assigned identity for a pipeline or for a pod that must survive a resource replacement.
 
-8. Federate GitHub Actions to that user-assigned identity. Issuer `https://token.actions.githubusercontent.com`. Audience `api://AzureADTokenExchange`. Subject `repo:<org>/<repo>:environment:<name>`, or one ref if the platform has no environment. Do not match every branch and every pull request. The deploy job sets `id-token: write` and `contents: read`. It stores no cloud key. Follow `principle-no-static-credentials`.
+8. Federate GitHub Actions to that user-assigned identity. Issuer `https://token.actions.githubusercontent.com`. Audience `api://AzureADTokenExchange`. Copy the subject from a token for this repository. The subject forms live in `principle-no-static-credentials`. The command below uses the immutable subject for a repository created after 15 July 2026. A repository that still uses name-only subjects omits `@123456` and `@456789`. Use one environment, or one ref when the platform has no environment. Match only that subject. The deploy job sets `id-token: write` and `contents: read`. It stores no cloud key.
 
    ```bash
-   az identity federated-credential create --name github-prod-example --identity-name id-example --resource-group rg-example --issuer https://token.actions.githubusercontent.com --subject repo:example-org/example-repo:environment:production --audiences api://AzureADTokenExchange
+   az identity federated-credential create --name github-prod-example --identity-name id-example --resource-group rg-example --issuer https://token.actions.githubusercontent.com --subject repo:example-org@123456/example-repo@456789:environment:production --audiences api://AzureADTokenExchange
    ```
 
 9. For Azure DevOps, use an Azure Resource Manager service connection with workload identity federation. Copy the issuer and the subject from the connection. Do not type them. Scope the connection to the resource group or subscription it deploys.
@@ -70,7 +70,7 @@ Grant the actions the job needs, at the smallest scope that covers them. Do not 
 - The actions and the scope match the job. No wildcard write.
 - People have an eligible PIM assignment with an end date, not standing Owner.
 - The pipeline identity is federated. No client secret, password or storage account key is stored.
-- The federated subject is one repository and one environment or one ref.
+- The federated subject matches a token from this repository: one environment, or one ref.
 - Owner, User Access Administrator and Role Based Access Control Administrator are not on the pipeline identity.
 - The plan or `az role assignment list` output shows this grant and no extra grant.
 
