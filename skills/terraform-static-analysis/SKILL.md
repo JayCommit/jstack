@@ -88,7 +88,7 @@ jobs:
         run: terraform fmt -check -recursive
 ```
 
-Pin the action release that was reviewed. Add one step per command so a non-zero exit fails the job. Do not chain commands with `&&`.
+Record the commit SHA of each action you reviewed. A major tag such as `actions/checkout@v4` still moves. Add one step per command so a non-zero exit fails the job. Do not chain commands with `&&`.
 
 8. Fail on a new finding from fmt, validate, tflint, Checkov or Trivy. A suppression needs the rule id, the reason, and an expiry or a tracked follow-up. A skip with no reason is a defect. Do not widen a global ignore to clear one resource.
 9. Code that later applies still uses a locked remote backend. This job does not init that backend and does not plan. Plan review stays a separate gate. See `principle-change-safety`.
