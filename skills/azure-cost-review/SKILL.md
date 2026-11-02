@@ -29,20 +29,20 @@ Price the change before you ship it. A cost change still goes through a reviewed
 
 6. List orphans. Do not delete them in this step. A delete is its own change.
 
-```bash
-az disk list --query "[?diskState=='Unattached'].[name,resourceGroup,diskSizeGb]" --output table
-az network public-ip list --query "[?ipConfiguration==null].[name,resourceGroup]" --output table
-az network lb list --query "[].[name,resourceGroup]" --output table
-az network application-gateway list --query "[].[name,resourceGroup]" --output table
-```
+   ```bash
+   az disk list --query "[?diskState=='Unattached'].[name,resourceGroup,diskSizeGb]" --output table
+   az network public-ip list --query "[?ipConfiguration==null].[name,resourceGroup]" --output table
+   az network lb list --query "[].[name,resourceGroup]" --output table
+   az network application-gateway list --query "[].[name,resourceGroup]" --output table
+   ```
 
 7. For each load balancer, check backend pools and outbound rules. For each application gateway, check listeners, backends and recent throughput. An empty pool or a flat zero throughput series is unused. Confirm with the metrics before you call it idle. A name on this list is not enough.
 
 8. Snapshot a disk before any later delete. A disk delete without a snapshot is not reversible. Write that rollback before production. Follow `principle-rollback-first`.
 
-```bash
-az snapshot create --resource-group rg-example --name snap-disk-example --source disk-example
-```
+   ```bash
+   az snapshot create --resource-group rg-example --name snap-disk-example --source disk-example
+   ```
 
 9. Check diagnostic settings on resources this change adds. Set retention and a daily cap, or an ingestion estimate, on Log Analytics. Unbounded verbose logs are a cost change. Do not copy the production retention into dev.
 

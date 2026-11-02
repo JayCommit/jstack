@@ -20,17 +20,17 @@ A scheduled plan detects drift. It does not apply. Reconcile only after you can 
 1. Run the check on a schedule from the default branch. Use the plan identity, not the apply identity. See `principle-least-privilege`. Authenticate with OIDC or workload identity federation. See `principle-no-static-credentials`.
 2. Plan with a lock and a detailed exit code. Save the plan as an artifact. Do not apply it in this job. Pin the reviewed Terraform release, such as `1.10.5`.
 
-```text
-terraform plan -input=false -lock-timeout=5m -detailed-exitcode -out=tfplan
-```
+   ```text
+   terraform plan -input=false -lock-timeout=5m -detailed-exitcode -out=tfplan
+   ```
 
-Exit 0 means the code and the live resources match. Exit 2 means drift or a change that was never applied. Exit 1 means the plan failed. An error is not drift. Fix the error before you triage a diff. In PowerShell, read `$LASTEXITCODE`.
+   Exit 0 means the code and the live resources match. Exit 2 means drift or a change that was never applied. Exit 1 means the plan failed. An error is not drift. Fix the error before you triage a diff. In PowerShell, read `$LASTEXITCODE`.
 
 3. On exit 2, read the plan before you edit code. Record the resource address, the action and the attributes that differ.
 
-```text
-terraform show -no-color tfplan
-```
+   ```text
+   terraform show -no-color tfplan
+   ```
 
 4. Read the control-plane log before you change Terraform. On Azure, open Activity Log for that subscription and resource. On AWS, open CloudTrail for that account and event name. Note the caller: a pipeline role, a person, or a principal you do not recognise. See `principle-observe-before-you-fix`.
 5. Pick one path. Do not mix them in one change. See `principle-change-safety`. State stays in the locked remote backend for that environment.
@@ -43,21 +43,21 @@ terraform show -no-color tfplan
 12. Run one scheduled pipeline per environment from the default branch. Serialize it on the state key so it does not take the lock from an apply. See `principle-idempotent-automation`.
 13. Write this note before you edit code. A note that only says "drift" is not triage.
 
-```text
-resource: azurerm_resource_group.this
-caller: principal from Activity Log or CloudTrail
-path: update code, import, or revert live
-```
+    ```text
+    resource: azurerm_resource_group.this
+    caller: principal from Activity Log or CloudTrail
+    path: update code, import, or revert live
+    ```
 
 14. Do not clear a diff with `ignore_changes` unless that attribute is known to churn. Record the attribute, the reason and an expiry on the pull request. Do not ignore a security group, a route or a role assignment.
 15. Codify a console create with an `import` block in its own change. Plan it alone. Do not mix it with an unrelated edit.
 
-```hcl
-import {
-  to = azurerm_resource_group.this
-  id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
-}
-```
+    ```hcl
+    import {
+      to = azurerm_resource_group.this
+      id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
+    }
+    ```
 
 16. If exit 2 repeats for the same address after you reconciled, read the log again before you edit the code a second time. See `principle-observe-before-you-fix`.
 

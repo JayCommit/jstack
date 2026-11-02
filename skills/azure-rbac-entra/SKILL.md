@@ -25,29 +25,29 @@ Grant the actions the job needs, at the smallest scope that covers them. Do not 
 
 4. Write a custom role when every built-in role is wider than the API calls you listed. Put only those actions and data actions in the role. Set `AssignableScopes` to the resource group or the resource, not the tenant.
 
-```text
-{
-  "Name": "example-rg-reader-restart",
-  "IsCustom": true,
-  "Actions": [
-    "Microsoft.Resources/subscriptions/resourceGroups/read",
-    "Microsoft.Compute/virtualMachines/read",
-    "Microsoft.Compute/virtualMachines/restart/action"
-  ],
-  "NotActions": [],
-  "DataActions": [],
-  "AssignableScopes": [
-    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
-  ]
-}
-```
+   ```text
+   {
+     "Name": "example-rg-reader-restart",
+     "IsCustom": true,
+     "Actions": [
+       "Microsoft.Resources/subscriptions/resourceGroups/read",
+       "Microsoft.Compute/virtualMachines/read",
+       "Microsoft.Compute/virtualMachines/restart/action"
+     ],
+     "NotActions": [],
+     "DataActions": [],
+     "AssignableScopes": [
+       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
+     ]
+   }
+   ```
 
 5. Create and assign that role. Do not use a wildcard action.
 
-```bash
-az role definition create --role-definition ./example-role.json
-az role assignment create --assignee-object-id 00000000-0000-0000-0000-000000000000 --assignee-principal-type ServicePrincipal --role example-rg-reader-restart --scope /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example
-```
+   ```bash
+   az role definition create --role-definition ./example-role.json
+   az role assignment create --assignee-object-id 00000000-0000-0000-0000-000000000000 --assignee-principal-type ServicePrincipal --role example-rg-reader-restart --scope /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example
+   ```
 
 6. Give people Privileged Identity Management, not a standing active Owner. Use an Entra group. Make the assignment eligible, with an end date. Set activation to the shortest window the task needs, and require approval for Owner. Remove the eligible assignment when the task ends.
 
@@ -55,9 +55,9 @@ az role assignment create --assignee-object-id 00000000-0000-0000-0000-000000000
 
 8. Federate GitHub Actions to that user-assigned identity. Issuer `https://token.actions.githubusercontent.com`. Audience `api://AzureADTokenExchange`. Subject `repo:<org>/<repo>:environment:<name>`, or one ref if the platform has no environment. Do not match every branch and every pull request. The deploy job sets `id-token: write` and `contents: read`. It stores no cloud key. Follow `principle-no-static-credentials`.
 
-```bash
-az identity federated-credential create --name github-prod-example --identity-name id-example --resource-group rg-example --issuer https://token.actions.githubusercontent.com --subject repo:example-org/example-repo:environment:production --audiences api://AzureADTokenExchange
-```
+   ```bash
+   az identity federated-credential create --name github-prod-example --identity-name id-example --resource-group rg-example --issuer https://token.actions.githubusercontent.com --subject repo:example-org/example-repo:environment:production --audiences api://AzureADTokenExchange
+   ```
 
 9. For Azure DevOps, use an Azure Resource Manager service connection with workload identity federation. Copy the issuer and the subject from the connection. Do not type them. Scope the connection to the resource group or subscription it deploys.
 

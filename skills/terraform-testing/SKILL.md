@@ -20,30 +20,30 @@ Assert on a plan with `terraform test`. Apply only when the plan cannot answer t
 1. Add a `.tftest.hcl` file next to the module. Set `command = plan`. Assert arguments that must not drift, such as region, SKU and address space.
 2. Mock `azurerm` for an Azure module and `aws` for an AWS module. The mock does not call the cloud API. `terraform test` still installs the pinned provider so the schema is real. Pin Terraform `1.10.5`, `hashicorp/azurerm` `4.14.0` and `hashicorp/aws` `5.84.0`, or the later release that was reviewed.
 
-```hcl
-mock_provider "azurerm" {}
+   ```hcl
+   mock_provider "azurerm" {}
 
-mock_provider "aws" {}
+   mock_provider "aws" {}
 
-run "plan_network" {
-  command = plan
+   run "plan_network" {
+     command = plan
 
-  variables {
-    location = "westeurope"
-  }
+     variables {
+       location = "westeurope"
+     }
 
-  assert {
-    condition     = azurerm_resource_group.this.location == "westeurope"
-    error_message = "Resource group location must be westeurope."
-  }
-}
-```
+     assert {
+       condition     = azurerm_resource_group.this.location == "westeurope"
+       error_message = "Resource group location must be westeurope."
+     }
+   }
+   ```
 
 3. Run the tests from the module directory. A failing assert fails the job. Do not skip a run to go green.
 
-```text
-terraform test
-```
+   ```text
+   terraform test
+   ```
 
 4. Do not point tests at production state. `terraform test` keeps temporary state for the run. Do not pass a production backend key and do not export a production state path.
 5. Use Terratest only when the test must apply. A provisioner side effect or a contract the plan cannot see is that case. A normal argument check stays on `command = plan`. Do not set `command = apply` against live providers on every pull request.
@@ -51,13 +51,13 @@ terraform test
 7. Give the ephemeral job its own remote state key with locking. It is not the production key. Review the apply plan before that job applies it. See `principle-change-safety`.
 8. Destroy at the end of the same job. Save the destroy plan, then apply that file. In PowerShell, apply only when the plan command leaves `$LASTEXITCODE` at 0. If destroy fails, the job fails.
 
-```text
-terraform plan -destroy -input=false -out=tfplan-destroy
-```
+   ```text
+   terraform plan -destroy -input=false -out=tfplan-destroy
+   ```
 
-```text
-terraform apply -input=false tfplan-destroy
-```
+   ```text
+   terraform apply -input=false tfplan-destroy
+   ```
 
 9. A second run of the same test must pass with no leftovers. See `principle-idempotent-automation`. Keep the ephemeral stack small. If a failed destroy can add spend, price that risk. See `principle-cost-awareness`.
 10. Do not commit `tfplan`, `tfplan-destroy` or any state file. Do not put keys in a `variables` block inside the test.

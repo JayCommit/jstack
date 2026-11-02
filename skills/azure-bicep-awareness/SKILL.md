@@ -21,15 +21,15 @@ Read the template, compile it, and preview the deployment. One tool owns each re
 
 2. Compile to check the file. Read the JSON only to understand the compile. Do not commit `main.json` unless someone reviewed that exact file. A generated template that nobody reviewed does not get merged.
 
-```bash
-az bicep build --file main.bicep
-```
+   ```bash
+   az bicep build --file main.bicep
+   ```
 
 3. Preview before you deploy. Read every create, modify and delete. Ignore a change only when you can say why it is noise. Follow `principle-change-safety`.
 
-```bash
-az deployment group what-if --resource-group rg-example --template-file main.bicep --parameters main.bicepparam
-```
+   ```bash
+   az deployment group what-if --resource-group rg-example --template-file main.bicep --parameters main.bicepparam
+   ```
 
 4. Match the scope. Use `az deployment sub what-if --location uksouth` when `targetScope` is `subscription`. Use the management-group or tenant command when the template says so. Do not deploy a subscription template with `az deployment group`.
 
@@ -37,12 +37,12 @@ az deployment group what-if --resource-group rg-example --template-file main.bic
 
 6. Move to Terraform only when the rest of that environment is already Terraform. Map each resource to an `azurerm` address. Pin the live names so Terraform does not rename or replace. Pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5`. Use a remote backend with the blob lease lock and Azure AD auth. No storage account key.
 
-```hcl
-import {
-  to = azurerm_resource_group.example
-  id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
-}
-```
+   ```hcl
+   import {
+     to = azurerm_resource_group.example
+     id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
+   }
+   ```
 
 7. Import first, then plan. Run `terraform plan -out=tfplan`. Confirm there is no destroy and no replace. If there is, stop and fix the address or the arguments. Do not apply. Follow `principle-everything-as-code`.
 
@@ -54,9 +54,9 @@ import {
 
 11. After a deploy, list the deployment before you call it done. A clean what-if is not a clean deploy. Read the error text before you rerun. Follow `principle-observe-before-you-fix`.
 
-```bash
-az deployment group list --resource-group rg-example --output table
-```
+    ```bash
+    az deployment group list --resource-group rg-example --output table
+    ```
 
 ## Safety checks
 

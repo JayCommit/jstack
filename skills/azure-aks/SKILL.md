@@ -25,10 +25,10 @@ Create a private cluster with Azure RBAC and workload identity. Upgrade one mino
 
 4. Keep a system node pool for system pods only. Put application pods on user node pools. Do not copy the production VM size into dev or test. Price the node SKU and the count before you apply. Follow `principle-cost-awareness`.
 
-```bash
-az aks create --resource-group rg-example --name aks-example --location uksouth --kubernetes-version 1.31.1 --network-plugin azure --network-plugin-mode overlay --network-policy azure --enable-private-cluster --disable-local-accounts --enable-aad --enable-azure-rbac --enable-oidc-issuer --enable-workload-identity --nodepool-name system --node-count 2
-az aks nodepool add --resource-group rg-example --cluster-name aks-example --name user --mode User --node-count 2 --max-surge 1
-```
+   ```bash
+   az aks create --resource-group rg-example --name aks-example --location uksouth --kubernetes-version 1.31.1 --network-plugin azure --network-plugin-mode overlay --network-policy azure --enable-private-cluster --disable-local-accounts --enable-aad --enable-azure-rbac --enable-oidc-issuer --enable-workload-identity --nodepool-name system --node-count 2
+   az aks nodepool add --resource-group rg-example --cluster-name aks-example --name user --mode User --node-count 2 --max-surge 1
+   ```
 
 5. Replace `1.31.1` with the full patch you planned. It must appear in `az aks get-upgrades` or `az aks get-versions --location uksouth --output table`. Do not pass `latest`. Do not commit an SSH private key. Disable node SSH if the CLI requires a key and the design does not need SSH.
 
@@ -42,11 +42,11 @@ az aks nodepool add --resource-group rg-example --cluster-name aks-example --nam
 
 10. Upgrade the control plane, confirm it, then upgrade user node pools. Set max surge before the node upgrade. System pool upgrades are a separate step from the user pool.
 
-```bash
-az aks upgrade --resource-group rg-example --name aks-example --control-plane-only --kubernetes-version 1.31.1
-az aks nodepool update --resource-group rg-example --cluster-name aks-example --name user --max-surge 1
-az aks nodepool upgrade --resource-group rg-example --cluster-name aks-example --name user --kubernetes-version 1.31.1
-```
+    ```bash
+    az aks upgrade --resource-group rg-example --name aks-example --control-plane-only --kubernetes-version 1.31.1
+    az aks nodepool update --resource-group rg-example --cluster-name aks-example --name user --max-surge 1
+    az aks nodepool upgrade --resource-group rg-example --cluster-name aks-example --name user --kubernetes-version 1.31.1
+    ```
 
 11. Name the blast radius: subscription, resource group, cluster, node pools, state key and pipeline. One change. Follow `principle-change-safety`.
 

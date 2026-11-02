@@ -19,17 +19,17 @@ Use RBAC on a new vault. Keep values out of logs, plan output and git. Applicati
 
 1. Create the vault with RBAC authorization, soft delete and purge protection. Soft delete cannot be turned off. Set retention at creation. Use 90 days for production. Do not pass `--enable-rbac-authorization false`. Do not add an access policy on a new vault.
 
-```bash
-az keyvault create --name kv-example --resource-group rg-example --location uksouth --enable-rbac-authorization true --enable-purge-protection true --retention-days 90
-```
+   ```bash
+   az keyvault create --name kv-example --resource-group rg-example --location uksouth --enable-rbac-authorization true --enable-purge-protection true --retention-days 90
+   ```
 
 2. On an existing vault that still uses access policies, create the RBAC assignments first and prove the app still reads. Then switch the vault to RBAC in a separate reviewed change. Switching first drops policy access and causes an outage.
 
 3. Keep secrets, keys and certificates on their own planes. Do not store a key or a certificate as a secret string. Grant Key Vault Secrets User for secret reads, Key Vault Crypto User for key use, and Key Vault Certificate User for certificate reads. Scope the assignment to the vault resource, not the resource group. Do not grant Key Vault Administrator to a pipeline.
 
-```bash
-az role assignment create --assignee-object-id 00000000-0000-0000-0000-000000000000 --assignee-principal-type ServicePrincipal --role "Key Vault Secrets User" --scope /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.KeyVault/vaults/kv-example
-```
+   ```bash
+   az role assignment create --assignee-object-id 00000000-0000-0000-0000-000000000000 --assignee-principal-type ServicePrincipal --role "Key Vault Secrets User" --scope /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.KeyVault/vaults/kv-example
+   ```
 
 4. Give the workload a user-assigned managed identity. The app reads the vault at runtime. Do not copy the secret into app settings, a pipeline variable or git. Follow `principle-no-static-credentials`.
 
@@ -37,21 +37,21 @@ az role assignment create --assignee-object-id 00000000-0000-0000-0000-000000000
 
 6. Put a private endpoint on the vault in `snet-pe`. The group id is `vault`. Link Private DNS zone `privatelink.vaultcore.azure.net` as in `azure-networking`. Prove the app resolves the vault name before you close the public path.
 
-```bash
-az network private-endpoint create --name pe-kv-example --resource-group rg-example --vnet-name vnet-spoke-example --subnet snet-pe --private-connection-resource-id /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.KeyVault/vaults/kv-example --group-id vault --connection-name pec-kv-example
-```
+   ```bash
+   az network private-endpoint create --name pe-kv-example --resource-group rg-example --vnet-name vnet-spoke-example --subnet snet-pe --private-connection-resource-id /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.KeyVault/vaults/kv-example --group-id vault --connection-name pec-kv-example
+   ```
 
 7. Turn public network access off only after that proof. Do not turn it off first.
 
-```bash
-az keyvault update --name kv-example --resource-group rg-example --public-network-access Disabled
-```
+   ```bash
+   az keyvault update --name kv-example --resource-group rg-example --public-network-access Disabled
+   ```
 
 8. Read the vault back. RBAC authorization must be true. Public network access must be Disabled only when the private endpoint works.
 
-```bash
-az keyvault show --name kv-example --resource-group rg-example --query "{rbac:properties.enableRbacAuthorization,publicNetwork:properties.publicNetworkAccess}" --output json
-```
+   ```bash
+   az keyvault show --name kv-example --resource-group rg-example --query "{rbac:properties.enableRbacAuthorization,publicNetwork:properties.publicNetworkAccess}" --output json
+   ```
 
 9. If Terraform must write a secret, mark the variable sensitive, write no output, and do not run `terraform state show` or `terraform output` on that address in a log. Treat state as sensitive. Pin `hashicorp/azurerm` `4.14.0` and Terraform `1.10.5`. Use a remote backend with the blob lease lock and Azure AD auth. Stop if the plan prints a plaintext value. Prefer the app or a rotation job to write the value so it never enters state.
 
@@ -75,11 +75,11 @@ Purge protection cannot be turned off. Write the rollback before production. Fol
 
 1. Recover a deleted object. Do not recreate it with a guessed value.
 
-```bash
-az keyvault secret recover --vault-name kv-example --name example-setting
-az keyvault key recover --vault-name kv-example --name example-key
-az keyvault certificate recover --vault-name kv-example --name example-cert
-```
+   ```bash
+   az keyvault secret recover --vault-name kv-example --name example-setting
+   az keyvault key recover --vault-name kv-example --name example-key
+   az keyvault certificate recover --vault-name kv-example --name example-cert
+   ```
 
 2. If the private path fails after you disable public access, turn public network access back on only as the rehearsed rollback, then fix the endpoint. Do not leave public access on once the private path works.
 3. Remove the role assignment you added if the grant was wrong. Do not delete the vault as a rollback while purge protection will only soft-delete it.

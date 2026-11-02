@@ -20,3 +20,23 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `principle-idempotent-automation`: Pipelines and scripts must be safe to rerun. Load `skills/principle-idempotent-automation/SKILL.md` when writing or rerunning automation.
 - `principle-observe-before-you-fix`: Read the logs, metrics and errors before changing anything. Load `skills/principle-observe-before-you-fix/SKILL.md` when diagnosing a failure.
 - `principle-cost-awareness`: Price a change before you ship it. Load `skills/principle-cost-awareness/SKILL.md` when a change can add cloud spend.
+
+## Terraform
+
+- `terraform-module-design`: Typed inputs and outputs, an immutable version pin, and provider blocks only in the root module. Load `skills/terraform-module-design/SKILL.md` when you add or change a Terraform module.
+- `terraform-plan-review`: Read the full plan, flag destroys, grants, network edits, moves, imports and provider bumps, and apply only the saved plan. Load `skills/terraform-plan-review/SKILL.md` before a Terraform apply.
+- `terraform-state-backends`: Remote state with locking on Azure Storage or S3, one key per environment, and separate moves, imports and migrations. Load `skills/terraform-state-backends/SKILL.md` when you add, move or recover state.
+- `terraform-drift`: A scheduled plan detects drift. Triage Activity Log or CloudTrail, then update the code, import, or revert the live change. Load `skills/terraform-drift/SKILL.md` when a plan reports changes nobody shipped.
+- `terraform-testing`: Plan assertions with `terraform test` and mocked providers. Apply only in an ephemeral account, then destroy from a saved plan. Load `skills/terraform-testing/SKILL.md` when a module change needs a test.
+- `terraform-static-analysis`: Run fmt, validate, tflint, Checkov and Trivy in pre-commit and on the pull request. Load `skills/terraform-static-analysis/SKILL.md` when Terraform changes or you add those checks.
+- `terraform-workspaces-environments`: One directory and backend key per environment. Promote a pinned module version. Load `skills/terraform-workspaces-environments/SKILL.md` when you lay out or promote environments.
+
+## Azure
+
+- `azure-landing-zones`: Keep the Platform, Landing zones, Sandbox and Decommissioned hierarchy, and pin the landing-zone module. Load `skills/azure-landing-zones/SKILL.md` when you add a management group, subscription or hub.
+- `azure-rbac-entra`: Assign the narrowest role at the resource, use Privileged Identity Management for people, and federate pipeline identities. Load `skills/azure-rbac-entra/SKILL.md` when you grant Azure access.
+- `azure-aks`: Private cluster, Azure CNI overlay, Azure RBAC and workload identity, with system and user pools split. Load `skills/azure-aks/SKILL.md` when you create or upgrade AKS.
+- `azure-networking`: Hub and spoke, both peering directions, Azure Firewall, NSGs on spoke subnets, and Private DNS. Load `skills/azure-networking/SKILL.md` when you change VNets, routes, peerings or private endpoints.
+- `azure-key-vault`: RBAC authorization, purge protection, a private endpoint, and a federated reader on the vault. Load `skills/azure-key-vault/SKILL.md` when you create a vault or grant access to it.
+- `azure-bicep-awareness`: Compile, run what-if, and keep one owner per resource. Load `skills/azure-bicep-awareness/SKILL.md` when you read or take over a Bicep or ARM stack.
+- `azure-cost-review`: Estimate the change, set a budget, right-size from metrics, and list orphaned resources. Load `skills/azure-cost-review/SKILL.md` before a change that adds Azure spend.

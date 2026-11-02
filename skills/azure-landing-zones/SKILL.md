@@ -27,44 +27,44 @@ Place each workload in the existing landing-zone hierarchy. Do not add a second 
 
 5. Keep state in the management subscription, in a storage account that already exists before this apply. Use Azure AD auth and the backend blob lease as the lock. Do not pass a storage account key. Do not share the state key with another pipeline. Add `.alzlib` to `.gitignore`. Pass literals into the module. Do not set `depends_on` on it, and do not pass values that are known only after apply.
 
-```hcl
-terraform {
-  required_version = "1.10.5"
+   ```hcl
+   terraform {
+     required_version = "1.10.5"
 
-  required_providers {
-    alz = {
-      source  = "azure/alz"
-      version = "0.17.4"
-    }
-    azapi = {
-      source  = "azure/azapi"
-      version = "2.2.0"
-    }
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "4.14.0"
-    }
-  }
+     required_providers {
+       alz = {
+         source  = "azure/alz"
+         version = "0.17.4"
+       }
+       azapi = {
+         source  = "azure/azapi"
+         version = "2.2.0"
+       }
+       azurerm = {
+         source  = "hashicorp/azurerm"
+         version = "4.14.0"
+       }
+     }
 
-  backend "azurerm" {
-    resource_group_name  = "rg-example"
-    storage_account_name = "stexampletfstate"
-    container_name       = "tfstate"
-    key                  = "landing-zones.tfstate"
-    use_oidc             = true
-    use_azuread_auth     = true
-  }
-}
+     backend "azurerm" {
+       resource_group_name  = "rg-example"
+       storage_account_name = "stexampletfstate"
+       container_name       = "tfstate"
+       key                  = "landing-zones.tfstate"
+       use_oidc             = true
+       use_azuread_auth     = true
+     }
+   }
 
-module "landing_zones" {
-  source  = "Azure/avm-ptn-alz/azurerm"
-  version = "0.12.3"
+   module "landing_zones" {
+     source  = "Azure/avm-ptn-alz/azurerm"
+     version = "0.12.3"
 
-  architecture_name  = "alz"
-  location           = "uksouth"
-  parent_resource_id = "00000000-0000-0000-0000-000000000000"
-}
-```
+     architecture_name  = "alz"
+     location           = "uksouth"
+     parent_resource_id = "00000000-0000-0000-0000-000000000000"
+   }
+   ```
 
 6. Replace `parent_resource_id` with the tenant id from `az account show --query tenantId --output tsv`, or with the parent management group name. Do not prefix it with `/providers/Microsoft.Management/managementGroups/`.
 

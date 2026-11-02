@@ -21,60 +21,60 @@ Keep state in a remote backend with a lock. Never commit a state file. Never mig
 2. For Azure, use the `azurerm` backend. Locking is a lease on the state blob. Set `use_azuread_auth = true` so the blob and the lease use Entra ID, not an account key. Set `use_oidc = true` for the pipeline. Turn on blob versioning before the first apply. Disable shared key access on that storage account once Entra auth works.
 3. Leave `key` out of the shared block. Pass it per environment so dev, test and prod cannot share a blob. Pin Terraform to the release that was reviewed.
 
-```hcl
-terraform {
-  required_version = "1.10.5"
+   ```hcl
+   terraform {
+     required_version = "1.10.5"
 
-  backend "azurerm" {
-    resource_group_name  = "rg-tfstate"
-    storage_account_name = "stexampletfstate"
-    container_name       = "tfstate"
-    use_azuread_auth     = true
-    use_oidc             = true
-  }
-}
-```
+     backend "azurerm" {
+       resource_group_name  = "rg-tfstate"
+       storage_account_name = "stexampletfstate"
+       container_name       = "tfstate"
+       use_azuread_auth     = true
+       use_oidc             = true
+     }
+   }
+   ```
 
 4. Point `terraform init` at the environment file. The dev file holds only the key.
 
-```text
-terraform init -input=false -backend-config=envs/dev.backend.hcl
-```
+   ```text
+   terraform init -input=false -backend-config=envs/dev.backend.hcl
+   ```
 
-```hcl
-key = "app/dev.tfstate"
-```
+   ```hcl
+   key = "app/dev.tfstate"
+   ```
 
-Test uses `app/test.tfstate`. Prod uses `app/prod.tfstate`. Split further when two products must not share a blast radius.
+   Test uses `app/test.tfstate`. Prod uses `app/prod.tfstate`. Split further when two products must not share a blast radius.
 
 5. Grant the plan identity read on that blob and the apply identity read and write. On Azure, scope Storage Blob Data Reader or Storage Blob Data Contributor to the container. On AWS, scope the role to the state key and its lock object. Do not grant `s3:*`. See `principle-least-privilege`.
 6. For AWS, use the `s3` backend. Set `encrypt = true`. On Terraform 1.10 or newer, set `use_lockfile = true` so the lock is an object next to the state. Turn on bucket versioning. Do not set `access_key` or `secret_key`. The pipeline role comes from OIDC.
 
-```hcl
-terraform {
-  backend "s3" {
-    bucket       = "example-tfstate"
-    key          = "app/dev.tfstate"
-    region       = "eu-west-2"
-    encrypt      = true
-    use_lockfile = true
-  }
-}
-```
+   ```hcl
+   terraform {
+     backend "s3" {
+       bucket       = "example-tfstate"
+       key          = "app/dev.tfstate"
+       region       = "eu-west-2"
+       encrypt      = true
+       use_lockfile = true
+     }
+   }
+   ```
 
 7. A `dynamodb_table` argument is the older lock, still seen on existing stacks. Leave it only where that table already exists. Do not add a DynamoDB table for a new backend.
 8. Move an address with `terraform state mv` in its own change. Plan afterwards. The plan must show no destroy. Put an import in git as an `import` block. A one-off `terraform import` leaves no record. See `principle-everything-as-code`.
 
-```hcl
-import {
-  to = azurerm_resource_group.this
-  id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
-}
-```
+   ```hcl
+   import {
+     to = azurerm_resource_group.this
+     id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example"
+   }
+   ```
 
-```text
-terraform state mv azurerm_resource_group.old azurerm_resource_group.this
-```
+   ```text
+   terraform state mv azurerm_resource_group.old azurerm_resource_group.this
+   ```
 
 9. Migrate state in its own change. Run `terraform init -migrate-state`, then plan. Continue only when that plan changes no resources. A later change edits resources. See `principle-change-safety`.
 10. If init reports a lock, find the holder and the running pipeline before you touch it. See `principle-observe-before-you-fix`. Do not run `terraform force-unlock` while that run is alive.
