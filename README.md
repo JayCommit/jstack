@@ -9,7 +9,7 @@ Jay's DevOps skill pack for AI coding agents, focused on **Azure, AWS and Terraf
 - **Platform:** containers, Kubernetes, Helm, GitOps (Argo CD/Flux), policy as code (OPA, Sentinel, Azure Policy), observability
 - **Operations:** change safety, secrets, cost, incidents, runbooks and postmortems
 
-**Status:** principles, Terraform, Azure and AWS skills are in. Pipelines, platform and operations playbooks are still open. Specialist agent personas are not written yet. Progress is tracked in [issue #1](../../issues/1).
+**Status:** principles, Terraform, Azure, AWS and pipelines skills are in. Platform and operations playbooks are still open. Specialist agent personas are not written yet. Progress is tracked in [issue #1](../../issues/1).
 
 ## Inspiration and credit
 
