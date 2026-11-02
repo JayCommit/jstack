@@ -33,7 +33,7 @@ A secret has one home. A leak is closed by rotation. Deleting the line that cont
 
    - Revoke or rotate in the home from step 1. Disable a cloud access key. Do not only delete the line in the repo.
    - Point the consumer at the new value. A running app that cached the old value needs a restart after the rotation, and that restart is a change you name.
-   - Scan the history with redaction so the tool does not print the secret again. `gitleaks detect --source . --redact` is the check this repo already runs in CI. Run it on the repo that leaked.
+   - Scan the history with redaction so the tool does not print the secret again. Run `gitleaks detect --source . --redact` on the repo that leaked. CI in this repo runs gitleaks on pull requests. That does not replace a scan of a repository that already leaked.
    - Read the pipeline logs and the artefacts for the value. Follow `principle-observe-before-you-fix`. A force-push that drops a commit does not replace rotation. History on other clones still has the old value.
 
 6. Do not put the new value in the issue, the pull request, the runbook, or the incident channel. Write the secret name and the time you rotated it. Follow `ops-runbook-authoring` and `ops-postmortem`.
