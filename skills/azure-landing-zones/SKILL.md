@@ -23,7 +23,7 @@ Place each workload in the existing landing-zone hierarchy. Do not add a second 
 
 3. Pick one connectivity model per region. Use hub-and-spoke or Virtual WAN, the model the connectivity subscription already runs. Do not add the other model in the same change. Spoke and firewall detail is `azure-networking`.
 
-4. Pin Terraform `1.10.5`, `hashicorp/azurerm` `4.14.0`, and the reviewed module. `Azure/avm-ptn-alz/azurerm` `0.12.3` is the example pin. Replace that pin only with a release you have reviewed. Do not use a floating constraint. Also pin `azure/alz` and `Azure/azapi` to the exact releases you reviewed with that module. The `0.12.3` module accepts the `0.17` line of `alz` and the `2.2` line of `azapi`. An open range is not a pin.
+4. Pin Terraform `1.10.5` and the reviewed module. `Azure/avm-ptn-alz/azurerm` `0.12.3` is the example pin. Replace that pin only with a release you have reviewed. That module requires `azure/alz` on the `0.17` line and `azure/azapi` on the `2.2` line. Pin the exact releases you reviewed, such as `azure/alz` `0.17.4` and `azure/azapi` `2.2.0`. Pin `hashicorp/azurerm` `4.14.0` when the same root also manages AzureRM resources. Do not use a floating constraint. An open range is not a pin.
 
 5. Keep state in the management subscription, in a storage account that already exists before this apply. Use Azure AD auth and the backend blob lease as the lock. Do not pass a storage account key. Do not share the state key with another pipeline. Add `.alzlib` to `.gitignore`. Pass literals into the module. Do not set `depends_on` on it, and do not pass values that are known only after apply.
 
@@ -32,6 +32,14 @@ terraform {
   required_version = "1.10.5"
 
   required_providers {
+    alz = {
+      source  = "azure/alz"
+      version = "0.17.4"
+    }
+    azapi = {
+      source  = "azure/azapi"
+      version = "2.2.0"
+    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "4.14.0"

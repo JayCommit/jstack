@@ -34,7 +34,7 @@ az network vnet peering create --name peer-spoke-to-hub-example --resource-group
 az network route-table route create --resource-group rg-spoke-example --route-table-name rt-spoke-example --name default-to-firewall --address-prefix 0.0.0.0/0 --next-hop-type VirtualAppliance --next-hop-ip-address 10.0.0.4
 ```
 
-5. Put an NSG on every subnet, including `nsg-spoke-app-example` on `snet-app` and an NSG on `snet-pe`. Name each rule you add or remove in the change record. Do not allow inbound management ports from `0.0.0.0/0`. That prefix belongs on `default-to-firewall` only. On `snet-pe`, enable network policies so the NSG applies to private endpoints. Read the subnet first if you are not sure of the current flag value.
+5. Put an NSG on every spoke subnet, including `nsg-spoke-app-example` on `snet-app` and an NSG on `snet-pe`. Do not attach an NSG to `AzureFirewallSubnet`. Name each rule you add or remove in the change record. Do not allow inbound management ports from `0.0.0.0/0`. That prefix belongs on `default-to-firewall` only. On `snet-pe`, enable network policies so the NSG applies to private endpoints. Read the subnet first if you are not sure of the current flag value.
 
 6. Put private endpoints in `snet-pe`. Create the Private DNS zone in the hub resource group and link it to `vnet-hub-example` as `link-hub-example`. Also link each spoke that resolves names itself, or send spoke DNS through the hub resolver. A link on the hub alone does not make Azure DNS in the spoke see the zone. Do not enable registration on these zones. Zones this change can break:
 
@@ -60,7 +60,7 @@ az network private-dns link vnet create --resource-group rg-hub-example --zone-n
 - Both peering directions exist and show Connected. No spoke-to-spoke peering was added.
 - `default-to-firewall` still points at `10.0.0.4`. BGP route propagation is off on the spoke table.
 - `AzureFirewallSubnet` is at least `/26` and is named exactly that.
-- Every subnet in the change has an NSG. No new inbound allow comes from `0.0.0.0/0`.
+- Every spoke subnet in the change has an NSG. `AzureFirewallSubnet` has none. No new inbound allow comes from `0.0.0.0/0`.
 - The Private DNS zones listed above stay linked. Registration is off.
 - The plan does not destroy a peering, a route or a zone link unless the change says so.
 - The pipeline is federated and the provider pin is exact.
