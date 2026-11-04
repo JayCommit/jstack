@@ -57,7 +57,7 @@
 }
 
 .md-grid {
-  max-width: 64rem;
+  max-width: 76rem;
 }
 
 body,
@@ -199,12 +199,19 @@ body,
 }
 
 .md-typeset h1 {
-  margin: 0 0 0.45em;
-  font-size: 1.65rem;
-  line-height: 1.25;
+  margin: 0 0 0.4em;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.md-typeset h1 + p,
+.md-typeset h1 + p {
+  max-width: 36rem;
+  color: var(--jstack-body);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
 .jstack-deck {
   max-width: 40rem;
   color: var(--jstack-muted);
@@ -214,9 +221,9 @@ body,
 
 .md-typeset h2,
 .jstack-home h2 {
-  margin: 1.5rem 0 0.35rem;
-  font-size: 1.15rem;
-  line-height: 1.3;
+  margin: 1.8rem 0 0.55rem;
+  font-size: 1.35rem;
+  line-height: 1.25;
 }
 
 .md-typeset a {
@@ -238,7 +245,8 @@ body,
 
 .md-typeset pre,
 .md-typeset .highlight {
-  border-radius: 12px;
+  border: 1px solid var(--jstack-line);
+  border-radius: 10px;
 }
 
 .md-typeset .admonition,
@@ -293,6 +301,8 @@ body,
 .md-nav__link--active {
   color: #fff;
   font-weight: 600;
+  background: rgb(255 255 255 / 7%);
+  border-radius: 8px;
 }
 
 .md-footer {
@@ -314,6 +324,80 @@ body,
 
 .jstack-home {
   padding-bottom: 1.5rem;
+}
+
+.jstack-launch,
+.jstack-guides {
+  display: grid;
+  margin: 1rem 0 1.4rem;
+}
+
+.jstack-launch {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  background: var(--jstack-line);
+  border-radius: 12px;
+}
+
+.jstack-guides {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  background: transparent;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-nav--primary > .md-nav__title {
+    display: none;
+  }
+}
+
+.jstack-launch a,
+.jstack-guides a,
+.md-typeset .jstack-launch a,
+.md-typeset .jstack-guides a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  min-width: 0;
+  padding: 0.95rem 1rem 1rem;
+  color: var(--jstack-body);
+  text-decoration: none;
+  background: var(--jstack-raise);
+}
+
+.md-typeset .jstack-launch a:hover,
+.md-typeset .jstack-guides a:hover {
+  color: var(--jstack-body);
+  background: #1c1c1e;
+}
+
+.jstack-guides a,
+.md-typeset .jstack-guides a {
+  border: 1px solid var(--jstack-line);
+  border-radius: 10px;
+}
+
+.jstack-launch svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-bottom: 0.45rem;
+  color: #e4e4e7;
+}
+
+.jstack-launch strong,
+.jstack-guides strong {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.jstack-launch span,
+.jstack-guides span {
+  color: var(--jstack-muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
 .jstack-intro {
@@ -993,6 +1077,11 @@ body,
 }
 
 @media screen and (max-width: 60rem) {
+  .jstack-launch,
+  .jstack-guides {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .jstack-stage,
   .jstack-board,
   .jstack-columns,
@@ -1011,7 +1100,9 @@ body,
 @media screen and (max-width: 40rem) {
   .jstack-choices,
   .jstack-cards,
-  .jstack-jobs {
+  .jstack-jobs,
+  .jstack-launch,
+  .jstack-guides {
     grid-template-columns: 1fr;
   }
 
@@ -1022,7 +1113,7 @@ body,
 
   .jstack-intro h1,
   .md-typeset h1 {
-    font-size: 1.45rem;
+    font-size: 1.7rem;
   }
 
   .md-tabs__link {
