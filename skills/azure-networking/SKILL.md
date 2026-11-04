@@ -64,6 +64,7 @@ Send spoke traffic through the hub firewall. Peering is not transitive. Name eve
 - The Private DNS zones listed above stay linked. Registration is off.
 - The plan does not destroy a peering, a route or a zone link unless the change says so.
 - The pipeline is federated and the provider pin is exact.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

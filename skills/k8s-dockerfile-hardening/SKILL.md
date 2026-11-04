@@ -69,6 +69,7 @@ The final image contains the app and nothing it does not need to run. The base i
 - Hadolint and `trivy image` both fail the job on a new finding.
 - An accepted CVE has an id, a reason and an expiry.
 - The push runs only after the scan exits 0, and it follows `pipelines-artifacts-releases`.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

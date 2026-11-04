@@ -62,6 +62,7 @@ The account is the blast-radius boundary. A service control policy sets the ceil
 - The new SCP was applied to a sandbox account before any production OU.
 - A Suspended deny-all is not attached to an account that still runs a workload.
 - The document fits the size limit, and the attachment count was checked.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

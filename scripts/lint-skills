@@ -14,6 +14,9 @@ DEFAULT_SKILLS = REPO_ROOT / "skills"
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 KEY_RE = re.compile(r"^([A-Za-z][A-Za-z0-9_-]*):\s*(.*)$")
 DONE_RE = re.compile(r"^#{1,6}[ \t]+Done when[ \t]*$")
+SAFETY_RE = re.compile(r"^#{1,6}[ \t]+Safety checks[ \t]*$")
+HEADING_RE = re.compile(r"^#{1,6}[ \t]+\S")
+STOP_PHRASE = "principle-stop-at-approval"
 LINK_RE = re.compile(r"(?<!!)\[(?:[^\]\n]*)\]\(([^)\n]+)\)")
 FENCE_RE = re.compile(r"(`{3,}|~{3,})(.*)$")
 
@@ -54,6 +57,9 @@ PREFIXES = (
     "policy",
     "ops",
     "principle",
+    "github",
+    "azuredevops",
+    "servicenow",
 )
 EXCEPTIONS = {"jay-mode", "setup-jstack"}
 
@@ -151,6 +157,22 @@ def fence_mask(lines: list[str]) -> list[bool]:
         if active:
             masked[index] = True
     return masked
+
+
+def safety_section(lines: list[str]) -> tuple[int, str] | None:
+    start = None
+    for index, line in enumerate(lines):
+        if SAFETY_RE.match(line):
+            start = index
+            break
+    if start is None:
+        return None
+    end = len(lines)
+    for index in range(start + 1, len(lines)):
+        if HEADING_RE.match(lines[index]):
+            end = index
+            break
+    return start, "\n".join(lines[start + 1 : end])
 
 
 def known_area(name: str) -> bool:
@@ -375,6 +397,17 @@ def check_skill(path: Path, findings: list[Finding]) -> None:
     is_principle = label.startswith("principle-")
     if not is_principle and not any(DONE_RE.match(line) for line in lines):
         add(findings, path, 1, "warning", "missing 'Done when' heading")
+    if not is_principle:
+        section = safety_section(lines)
+        if section is None or STOP_PHRASE not in section[1]:
+            line_no = 1 if section is None else section[0] + 1
+            add(
+                findings,
+                path,
+                line_no,
+                "warning",
+                "Safety checks do not name principle-stop-at-approval",
+            )
 
 
 def collect(path: Path, findings: list[Finding]) -> list[Path]:

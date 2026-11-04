@@ -49,6 +49,7 @@ Read the failed step before you edit the workflow. A retry that goes green witho
 - Exit 137 or a shutdown signal was treated as memory or a lost runner.
 - No retry was added to make a flaky step look green.
 - No static cloud credential was added while chasing the failure.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

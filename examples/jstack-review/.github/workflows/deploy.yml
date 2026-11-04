@@ -1,0 +1,23 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Show the caller
+        env:
+          AWS_ACCESS_KEY_ID: example-access-key
+          AWS_SECRET_ACCESS_KEY: example-secret-key
+        run: aws sts get-caller-identity

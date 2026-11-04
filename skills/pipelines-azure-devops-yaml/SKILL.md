@@ -86,6 +86,7 @@ Keep the pipeline in YAML and the approvals on the resource. A check that lives 
 - A template from another repository uses `ref: refs/tags/v1.2.0`.
 - The pool is Microsoft-hosted or a named self-hosted pool, and the change says which.
 - A failed or hung run was read, and the failing step is named, before the YAML changed.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

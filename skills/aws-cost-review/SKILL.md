@@ -65,6 +65,7 @@ Price the change before you ship it. NAT gateways, public IPv4 addresses, interf
 - Orphan lists are attached. Nothing was deleted in the review step.
 - NAT, public IPv4, interface endpoints, cross-AZ transfer and new logs are in the estimate when the change adds them.
 - The pipeline that would apply a cost change is federated and least privilege.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

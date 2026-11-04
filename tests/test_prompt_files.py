@@ -13,7 +13,7 @@ from skill_prompt_lib import parse_skill, render_prompts, skill_dirs  # noqa: E4
 class PromptFilesTest(unittest.TestCase):
     def test_every_skill_has_prompts(self):
         dirs = skill_dirs(ROOT)
-        self.assertGreaterEqual(len(dirs), 54)
+        self.assertGreaterEqual(len(dirs), 68)
         problems = []
         for skill_dir in dirs:
             prompts = skill_dir / "tests" / "prompts.md"

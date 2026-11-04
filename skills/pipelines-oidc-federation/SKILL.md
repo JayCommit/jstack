@@ -95,6 +95,7 @@ A pipeline assumes a cloud role with a short-lived token. The trust names one re
 - The AWS trust uses `StringEquals` on `aud` and `sub`, or a `StringLike` pattern narrow enough to name.
 - Azure DevOps issuer and subject were copied from the service connection.
 - `id-token: write` is present only on the job that logs in.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

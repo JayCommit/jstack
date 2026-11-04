@@ -71,6 +71,7 @@ Production waits for a second person. The wait is a setting on the environment, 
 - Deploy concurrency does not cancel a run that is already in progress.
 - Azure DevOps checks are on the resource. They are not a script step.
 - You checked the plan before relying on a protection rule the UI may hide.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -45,6 +45,7 @@ Read the pipeline before you touch it. A pipeline that already deploys stays on 
 - `privilegedMode` is off, or it is an isolated image build whose role is not an admin role.
 - Production has a manual approval. Artifacts are encrypted and not public.
 - A migration does not also change the application, and the old pipeline still deploys until the new one has shipped once.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

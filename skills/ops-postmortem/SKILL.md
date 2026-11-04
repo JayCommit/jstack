@@ -69,6 +69,7 @@ Write what happened, what contributed, and what will change. The cause is a set 
 - Every action item has a type, an owner and a date.
 - No action item is a slogan, and none of them skip review for a production change.
 - The document has no secret value and no customer payload.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

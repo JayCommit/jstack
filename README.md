@@ -5,11 +5,13 @@ Jay's DevOps skill pack for AI coding agents, focused on **Azure, AWS and Terraf
 - **Terraform:** module design, plan review, state/backends/locking, drift, testing, tflint/checkov/Trivy
 - **Azure:** landing zones, RBAC/Entra ID, AKS, Key Vault, networking, Azure DevOps Pipelines, Bicep awareness, cost
 - **AWS:** IAM least privilege, Organizations/SCPs, VPC, EKS, ECS, Secrets Manager/SSM, CloudWatch, cost
-- **CI/CD:** GitHub Actions and Azure DevOps YAML pipelines, OIDC federation instead of static keys, environments/approvals, reusable workflows and templates, artifacts and releases
+- **CI/CD:** GitHub Actions and Azure DevOps YAML pipelines, OIDC federation instead of static keys, environments/approvals, reusable workflows and templates, artifacts and releases, runner and agent-pool hardening
+- **Repositories:** GitHub repositories and pull requests, Azure DevOps Git repositories, branch policy, and required reviewers
+- **ServiceNow:** the signed-in user's incidents, problems, changes, and catalog requests
 - **Platform:** containers, Kubernetes, Helm, GitOps (Argo CD/Flux), policy as code (OPA, Sentinel, Azure Policy), observability
-- **Operations:** change safety, secrets, cost, incidents, runbooks and postmortems
+- **Operations:** change safety, secrets, cost, incidents, runbooks, postmortems, backup and restore, access reviews, certificates
 
-**Status:** principles, Terraform, Azure, AWS, pipelines, platform, operations, `jay-mode`, `setup-jstack`, and the four specialist agents are in. The sample stack is `examples/jstack-sample`. Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is tracked in [issue #1](../../issues/1).
+**Status:** principles (including stop-at-approval and the resource baseline), Terraform, Azure, AWS, pipelines, GitHub and Azure DevOps repositories, ServiceNow, platform, operations, `jay-mode`, `setup-jstack`, and the four specialist agents are in. The sample stack is `examples/jstack-sample`. The blinded review target is `examples/jstack-review`. The task guide is [Operator guide](docs/operator-guide.md). Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is tracked in [issue #1](../../issues/1).
 
 ## Inspiration and credit
 
@@ -35,7 +37,8 @@ agents/                      Specialist agent personas (copied to .github/agents
 .github/prompts/             Copilot slash prompts
 .github/instructions/        Copilot path rules
 examples/jstack-sample/      Fixture stack. Nothing in it is applied.
-docs/                        Guide and per-tool notes
+examples/jstack-review/      Blinded plan and workflow review. Not a pattern.
+docs/                        Operator guide, author guide, and templates
 scripts/                     Sync, install and lint helpers
 AGENTS.md                    Cross-agent instructions
 .github/copilot-instructions.md  Copilot instructions for working on this repo
@@ -43,7 +46,7 @@ AGENTS.md                    Cross-agent instructions
 
 ## Tooling
 
-- [`scripts/lint-skills`](scripts/lint-skills) checks `skills/<name>/SKILL.md` for frontmatter, naming, placeholders and relative links. The style guide is [Writing skills](docs/writing-skills.md).
+- [`scripts/lint-skills`](scripts/lint-skills) checks `skills/<name>/SKILL.md` for frontmatter, naming, placeholders, relative links, and a Safety checks line that names `principle-stop-at-approval`. The style guide is [Writing skills](docs/writing-skills.md). The task guide is [Operator guide](docs/operator-guide.md).
 - [`scripts/sync`](scripts/sync) (and [`scripts/sync.ps1`](scripts/sync.ps1)) copies skills into another repo. It prints `create`, `update` or `unchanged` per skill. `--dry-run` changes nothing.
 
 ```bash

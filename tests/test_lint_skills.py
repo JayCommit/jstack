@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -21,7 +22,7 @@ DESCRIPTION = (
 
 def run_lint(*args: str, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [str(SCRIPT), *args],
+        [sys.executable, str(SCRIPT), *args],
         cwd=cwd or ROOT,
         capture_output=True,
         text=True,
@@ -133,6 +134,49 @@ class LintSkillsTests(unittest.TestCase):
         self.assertIn("missing 'Done when' heading", missing_done.stdout)
         self.assertEqual(principle.returncode, 0, principle.stdout)
         self.assertNotIn("warning:", principle.stdout)
+
+    def test_stop_line_warning(self) -> None:
+        missing_body = "\n".join(
+            (
+                "## Safety checks",
+                "",
+                "- The change is small.",
+                "",
+                "## Done when",
+                "",
+                "- Ready.",
+                "",
+            )
+        )
+        present_body = "\n".join(
+            (
+                "## Safety checks",
+                "",
+                "- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.",
+                "",
+                "## Done when",
+                "",
+                "- Ready.",
+                "",
+            )
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "skills"
+            write_skill(root, "ops-no-stop", body=missing_body)
+            missing = run_lint(str(root / "ops-no-stop"))
+            write_skill(root, "ops-stops", body=present_body)
+            present = run_lint(str(root / "ops-stops"))
+            write_skill(root, "principle-quiet", body="Keep the change small.\n")
+            principle = run_lint(str(root / "principle-quiet"))
+        self.assertEqual(missing.returncode, 0, missing.stdout)
+        self.assertIn(
+            "Safety checks do not name principle-stop-at-approval",
+            missing.stdout,
+        )
+        self.assertEqual(present.returncode, 0, present.stdout)
+        self.assertNotIn("warning:", present.stdout)
+        self.assertEqual(principle.returncode, 0, principle.stdout)
+        self.assertNotIn("Safety checks do not name", principle.stdout)
 
     def test_placeholders_allowed(self) -> None:
         body = "\n".join(

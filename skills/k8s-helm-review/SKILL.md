@@ -64,6 +64,7 @@ Review the rendered manifests, not the values file alone. Upgrade one release, a
 - CRD changes are split out of the app upgrade.
 - The upgrade uses `--wait` and `--atomic`, and history still holds the previous revision.
 - The identity that runs Helm cannot administer the cluster.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -89,6 +89,7 @@ Keep state in a remote backend with a lock. Never commit a state file. Never mig
 - Versioning is on for the blob or the bucket before you rely on it for recovery.
 - A migrate plan and a resource-change plan are not the same apply.
 - Provider pins on the stack match the reviewed release, such as `hashicorp/azurerm` `4.14.0` and `hashicorp/aws` `5.84.0`.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

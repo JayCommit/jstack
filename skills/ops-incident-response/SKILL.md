@@ -27,7 +27,7 @@ Name a lead, say who is hurt, and mitigate with a step you have already rehearse
 
 3. Write one impact sentence: who, which action, since when. Read the alert, the dashboard and the last deploy before you change anything. Follow `principle-observe-before-you-fix` and `ops-observability-alerts`. If you cannot write the sentence, you do not have a mitigation yet.
 
-4. Mitigate before you explain the cause. The first change is the rehearsed rollback for this change type. Follow `ops-rollback-plan` and `principle-rollback-first`. Do not start a new fix and a rollback in the same minute. Do not restart or scale as a guess.
+4. Mitigate before you explain the cause. The first change is the rehearsed rollback for this change type. Follow `ops-rollback-plan` and `principle-rollback-first`. When that mitigation is a restore, follow `ops-backup-restore`. The ServiceNow incident record follows `servicenow-incidents`. Do not start a new fix and a rollback in the same minute. Do not restart or scale as a guess.
 
 5. Keep a timeline in the incident channel. Each line has a time and what changed: alert fired, lead named, mitigation started, user impact stopped. Do not keep that record in a private chat.
 
@@ -50,6 +50,7 @@ Name a lead, say who is hurt, and mitigate with a step you have already rehearse
 - The timeline is in the incident channel.
 - No standing admin role was added.
 - The blast radius of the mitigation is named before it runs.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

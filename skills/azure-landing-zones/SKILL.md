@@ -84,6 +84,7 @@ Place each workload in the existing landing-zone hierarchy. Do not add a second 
 - The plan contains no unexpected destroy, replace or Owner grant.
 - The blast radius names the parent group, subscriptions, state key and pipeline.
 - A new subscription has a budget alert, or the change does not create one.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

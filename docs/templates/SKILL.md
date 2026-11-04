@@ -22,6 +22,7 @@ Use this skill when an agent is about to change this area of Azure, AWS, Terrafo
 - The blast radius is named: subscription, account, cluster and pipeline.
 - Examples use federated identity, pinned versions and a locked remote backend.
 - Production has a second person to approve it.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

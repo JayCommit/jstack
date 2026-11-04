@@ -106,6 +106,7 @@ Share a job or a step by pinning a ref you reviewed. Callers pass the inputs the
 - Called jobs set `timeout-minutes`. The called workflow does not widen permissions above the caller.
 - Nesting stays shallow, within GitHub's limit of ten levels, and each level passes only the secrets it names.
 - A required Azure DevOps template is pulled in with `extends` from a tag.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

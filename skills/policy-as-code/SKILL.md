@@ -92,6 +92,7 @@ A policy fails a bad change in CI, or it reports first and enforces in a later c
 - The SCP was not used as a grant, and a Control Tower policy was not edited.
 - Admission is audit or dry-run until the violations are triaged.
 - Kyverno and Gatekeeper are not both new on this cluster.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

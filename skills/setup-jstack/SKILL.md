@@ -17,7 +17,7 @@ Install from this repository. Do not paste skills into a chat. Choose the tool, 
 
 ## Steps
 
-1. Decide the tool and the scope. The scope is the whole pack, or a glob such as `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, or `principle-*`. A repository that has no cluster does not need the Kubernetes skills. Write the choice down.
+1. Decide the tool and the scope. The scope is the whole pack, or a glob such as `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `github-*`, `azuredevops-*`, `servicenow-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, or `principle-*`. A repository that has no cluster does not need the Kubernetes skills. A repository that does not use ServiceNow does not need the ServiceNow skills. Write the choice down.
 
 2. Cursor uses the plugin. The manifest is `.cursor-plugin/plugin.json`. It points `skills` at `./skills/` and `agents` at `./agents/`. Install the plugin from this repository. Do not also copy the same skills into the project.
 
@@ -62,6 +62,7 @@ Install from this repository. Do not paste skills into a chat. Choose the tool, 
 - A repository copy was dry-run first. The dry run after the copy prints `unchanged`.
 - Personas and prompts were copied only when that repo should have them.
 - No secret was added to the target.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

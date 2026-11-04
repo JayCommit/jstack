@@ -65,6 +65,7 @@ An operator who did not write the runbook can follow it. Each step has a command
 - No secret value, real tenant, real subscription, or real account id is in the page.
 - A changing step shows the undo command first.
 - Someone other than the author has followed it off production.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

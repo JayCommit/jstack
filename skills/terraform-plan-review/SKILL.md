@@ -72,6 +72,7 @@ Read the whole plan. Apply that saved file and nothing else.
 - The identity is federated. It is not Owner and it is not `AdministratorAccess`. See `principle-least-privilege`.
 - Production has a second approver. Promotion order follows `principle-change-safety`.
 - The plan file is not committed. It can hold values that must stay out of git.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

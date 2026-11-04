@@ -69,6 +69,7 @@ A scheduled plan detects drift. It does not apply. Reconcile only after you can 
 - The job uses the locked backend for that one state key and does not apply.
 - The reconcile change is one path: a code update, an import or a live revert.
 - The triage note names the resource, the caller and the path.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

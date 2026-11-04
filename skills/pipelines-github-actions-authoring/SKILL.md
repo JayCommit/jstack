@@ -89,6 +89,7 @@ Treat the workflow as production code. Pin it, narrow what the token can do, and
 - No `run:` script expands event text directly, and no `pull_request_target` job runs pull-request code.
 - The matrix lists named cells. Path filters do not replace a reviewer.
 - The workflow stores no client secret, access key or personal access token.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

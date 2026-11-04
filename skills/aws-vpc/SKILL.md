@@ -48,6 +48,7 @@ Keep application and data subnets off the internet gateway. Use security groups 
 - Workload security groups do not accept `0.0.0.0/0`. The data group accepts only the application group.
 - A peering mesh is not how a third VPC is being attached.
 - Flow logs have a destination and a retention.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

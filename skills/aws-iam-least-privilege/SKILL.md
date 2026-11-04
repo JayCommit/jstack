@@ -102,6 +102,7 @@ Grant the API calls the job makes, on the resources it uses. A wider policy is a
 - The GitHub trust uses `StringEquals` on one subject copied from a token.
 - Plan and apply are different roles.
 - Access Analyzer external-access findings on this resource are triaged.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -73,6 +73,7 @@ Grant the actions the job needs, at the smallest scope that covers them. Do not 
 - The federated subject matches a token from this repository: one environment, or one ref.
 - Owner, User Access Administrator and Role Based Access Control Administrator are not on the pipeline identity.
 - The plan or `az role assignment list` output shows this grant and no extra grant.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -107,6 +107,7 @@ Git is the source the cluster converges to. Promote one digest through environme
 - The git credential is a repo-scoped app or deploy key. The cluster role is not cluster-admin.
 - No Secret manifest contains data. The value is in External Secrets or in SOPS ciphertext.
 - Image-update automation does not write to the production overlay.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

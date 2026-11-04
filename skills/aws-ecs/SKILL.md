@@ -47,6 +47,7 @@ Run the service on Fargate in private subnets. The task role is what the applica
 - The image is a digest or a reviewed tag. The target type is `ip`.
 - The circuit breaker is on and rollback is on. Minimum healthy percent is 100, or the exception is written down.
 - The pipeline role is federated and cannot change IAM.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

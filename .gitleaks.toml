@@ -4,7 +4,8 @@ title = "jstack"
 useDefault = true
 
 [allowlist]
-description = "Synthetic secrets planted in linter fixtures"
+description = "Synthetic secrets planted in linter fixtures and the blinded review fixture"
 paths = [
   '''tests/lint-skills/fixtures/''',
+  '''examples/jstack-review/''',
 ]

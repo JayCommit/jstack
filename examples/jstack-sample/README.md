@@ -25,4 +25,4 @@ terraform test
 
 ## What this sample does not do
 
-Cursor, Copilot, and Claude Code trials of the pack are still open. The repository tag `v0.1.0` is not cut here.
+Cursor, Copilot, and Claude Code trials of the pack are still open. The repository tag `v0.1.0` is not cut here. The blinded review target is `examples/jstack-review`. Copy this sample, and review that directory from `examples/jstack-review/prompts.md`.

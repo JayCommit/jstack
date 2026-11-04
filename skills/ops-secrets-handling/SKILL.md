@@ -48,6 +48,7 @@ A secret has one home. A leak is closed by rotation. Deleting the line that cont
 - A leak was rotated, and the old credential was disabled or deleted after the new value worked.
 - `gitleaks` was run with redaction. The pull request does not contain the value.
 - The identity that reads the secret cannot read every secret in the account or vault.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

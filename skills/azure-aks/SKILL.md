@@ -65,6 +65,7 @@ Create a private cluster with Azure RBAC and workload identity. Upgrade one mino
 - Provider and Terraform versions are pinned when Terraform applies the cluster.
 - The live control plane and the user pool show the planned patch.
 - Each workload subject uses this cluster's OIDC issuer and one service account.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

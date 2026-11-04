@@ -25,7 +25,7 @@ Use RBAC on a new vault. Keep values out of logs, plan output and git. Applicati
 
 2. On an existing vault that still uses access policies, create the RBAC assignments first and prove the app still reads. Then switch the vault to RBAC in a separate reviewed change. Switching first drops policy access and causes an outage.
 
-3. Keep secrets, keys and certificates on their own planes. Do not store a key or a certificate as a secret string. Grant Key Vault Secrets User for secret reads, Key Vault Crypto User for key use, and Key Vault Certificate User for certificate reads. Scope the assignment to the vault resource, not the resource group. Do not grant Key Vault Administrator to a pipeline.
+3. Keep secrets, keys and certificates on their own planes. Do not store a key or a certificate as a secret string. Grant Key Vault Secrets User for secret reads, Key Vault Crypto User for key use, and Key Vault Certificate User for certificate reads. Scope the assignment to the vault resource, not the resource group. Do not grant Key Vault Administrator to a pipeline. Binding or renewing a certificate on a listener follows `ops-certificates`.
 
    ```bash
    az role assignment create --assignee-object-id 00000000-0000-0000-0000-000000000000 --assignee-principal-type ServicePrincipal --role "Key Vault Secrets User" --scope /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.KeyVault/vaults/kv-example
@@ -68,6 +68,7 @@ Use RBAC on a new vault. Keep values out of logs, plan output and git. Applicati
 - The plan and the logs do not contain a secret value.
 - Rotation has a named owner and a date.
 - Provider and Terraform versions are pinned when Terraform touches the vault.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

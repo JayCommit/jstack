@@ -18,6 +18,7 @@ Use this fixture when checking that a valid skill passes the linter.
 ## Safety checks
 
 - No real identifiers.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

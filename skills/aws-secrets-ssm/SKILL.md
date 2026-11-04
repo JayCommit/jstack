@@ -79,6 +79,7 @@ A secret has one home. Rotating credentials live in Secrets Manager. Other secre
 - Rotation is configured only where a function or a managed rotation exists, and it was tested off production.
 - The pipeline is federated and does not log the value.
 - A production delete has a recovery window of 30 days.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -56,6 +56,7 @@ Page when a user is hurt and a person must act. Everything else is a ticket. Eve
 - The Azure action group or the CloudWatch alarm action reaches the on-call, and you have tested it off production.
 - The dashboard uses the same SLI as the alert.
 - Log retention is set, and the cost is on the change.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -156,6 +156,7 @@ Lint with no cloud login. Plan on the pull request with a read-only identity. Af
 - The plan artefact keeps for one day and only people who may see the state can read it.
 - Fork pull requests do not plan with cloud access. `pull_request_target` is not used to run pull-request code.
 - Each environment has its own concurrency group with `cancel-in-progress: false`.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -93,6 +93,7 @@ Build the image once. Every later environment deploys that digest. A tag is a na
 - `packages: write` is present only on a job that pushes to GitHub Container Registry.
 - Provenance was verified, or the plan cannot store attestations and the change says so.
 - No registry password or cloud key is stored in the workflow.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

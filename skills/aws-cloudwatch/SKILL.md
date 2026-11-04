@@ -56,6 +56,7 @@ Logs have a retention. An alarm pages on the symptom a user hits, after you have
 - Missing data is set on purpose. The alarm action is an SNS topic the on-call receives.
 - The dashboard uses the same metrics as the alarms.
 - The identity that writes the alarm cannot read secrets it does not need.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

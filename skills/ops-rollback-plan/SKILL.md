@@ -57,6 +57,7 @@ license: MIT
 - Network rollback applies the export you took. It does not start by deleting the peering.
 - IAM rollback removes the grant you added or restores the previous policy version.
 - The rollback pipeline runs when the new revision is unhealthy.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

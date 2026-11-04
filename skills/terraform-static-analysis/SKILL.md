@@ -100,6 +100,7 @@ Fail the pull request on new findings. Pre-commit and the pipeline run the same 
 - The lint job has `contents: read` and no cloud key.
 - Trivy is set to fail the job. tfsec is not a second source of truth.
 - Every suppression names a rule, a reason and an expiry or a follow-up.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

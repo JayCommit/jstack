@@ -68,6 +68,7 @@ Read the template, compile it, and preview the deployment. One tool owns each re
 - Bicep no longer contains the resources Terraform now owns.
 - The pipeline is federated, and no secret sits in a parameter file.
 - The deployment list shows the operation you approved, not an older failure.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

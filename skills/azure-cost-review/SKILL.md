@@ -65,6 +65,7 @@ Price the change before you ship it. A cost change still goes through a reviewed
 - The reviewed plan matches the cost change and nothing else.
 - Log retention and any new firewall, NAT or public IP are in the estimate.
 - A disk delete has a snapshot, and that snapshot was restored once in test.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

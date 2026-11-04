@@ -1,0 +1,32 @@
+# Review packet
+# subscription: 00000000-0000-0000-0000-000000000000
+# resource group: rg-example
+# region: uksouth
+# state key: example-prod.tfstate
+# environment: production
+# pipeline: example-org/example/.github/workflows/deploy.yml
+
+Terraform v1.10.5
+on linux_amd64
++ provider registry.terraform.io/hashicorp/azurerm v4.14.0
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # azurerm_linux_virtual_machine.app will be destroyed
+  - resource "azurerm_linux_virtual_machine" "app" {
+      - admin_username      = "example" -> null
+      - id                  = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-example/providers/Microsoft.Compute/virtualMachines/vm-app" -> null
+      - location            = "uksouth" -> null
+      - name                = "vm-app" -> null
+      - resource_group_name = "rg-example" -> null
+      - size                = "Standard_D2s_v5" -> null
+        tags                = {
+            "environment" = "production"
+        }
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.

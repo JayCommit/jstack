@@ -4,7 +4,7 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 
 - Each skill lives in `skills/<name>/SKILL.md`. The folder name and the `name` field must match and be lowercase-hyphenated.
 - Every `SKILL.md` needs YAML frontmatter with `name` and `description`. The description says what the skill does and when to use it.
-- Name skills by area prefix: `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, and `principle-*` for principles. `jay-mode` and `setup-jstack` are the only names without a prefix.
+- Name skills by area prefix: `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, `github-*`, `azuredevops-*`, `servicenow-*`, and `principle-*` for principles. `jay-mode` and `setup-jstack` are the only names without a prefix.
 - Default to secure cloud practice in every example: OIDC/workload identity federation over static keys, least-privilege IAM/RBAC, pinned provider and action versions, remote state with locking.
 - Keep skills tool-neutral. Don't refer to tools that only one agent has without saying what to do elsewhere.
 - Don't copy text from pstack or other sources. Write it fresh.
@@ -20,6 +20,8 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `principle-idempotent-automation`: Pipelines and scripts must be safe to rerun. Load `skills/principle-idempotent-automation/SKILL.md` when writing or rerunning automation.
 - `principle-observe-before-you-fix`: Read the logs, metrics and errors before changing anything. Load `skills/principle-observe-before-you-fix/SKILL.md` when diagnosing a failure.
 - `principle-cost-awareness`: Price a change before you ship it. Load `skills/principle-cost-awareness/SKILL.md` when a change can add cloud spend.
+- `principle-stop-at-approval`: Prepare the diff and stop. A person approves, and the pipeline applies. Load `skills/principle-stop-at-approval/SKILL.md` before an apply, a merge, or a grant.
+- `principle-resource-baseline`: Use the names and tags the estate already uses, and deny delete on state and vaults. Load `skills/principle-resource-baseline/SKILL.md` when you create an Azure or AWS resource.
 
 ## Terraform
 
@@ -63,6 +65,24 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `pipelines-reusable-templates`: Pin shared workflows and actions to a commit SHA and Azure DevOps templates to a protected tag, and pass only the permissions and secrets each needs. Load `skills/pipelines-reusable-templates/SKILL.md` when you share pipeline logic across repos.
 - `pipelines-terraform-workflow`: Lint with no credential, plan on the pull request, and apply the saved plan after approval. Load `skills/pipelines-terraform-workflow/SKILL.md` when a pipeline runs Terraform.
 - `pipelines-artifacts-releases`: Build once, deploy the digest, and attach provenance and an SBOM. Load `skills/pipelines-artifacts-releases/SKILL.md` when you build, tag or promote an image or package.
+- `pipelines-runners`: Ephemeral runners, no cloud keys on the host, and untrusted builds kept off the production network. Load `skills/pipelines-runners/SKILL.md` when you add or harden a runner or an agent pool.
+
+## GitHub
+
+- `github-repositories`: Private by default, one ruleset on the default branch, CODEOWNERS, and secret scanning where the plan allows. Load `skills/github-repositories/SKILL.md` when you create or protect a GitHub repository.
+- `github-pull-requests`: Open a pull request into the default branch and stop before you approve or merge it. Load `skills/github-pull-requests/SKILL.md` when you open or review a GitHub pull request.
+
+## Azure DevOps
+
+- `azuredevops-repositories`: Git only, a reviewer who is not the author, and no policy bypass. Load `skills/azuredevops-repositories/SKILL.md` when you create or protect an Azure DevOps repository or its pull request.
+
+## ServiceNow
+
+- `servicenow-queue`: List the signed-in user's open incidents, problems, changes, and requests. Load `skills/servicenow-queue/SKILL.md` when you look up what is open for them.
+- `servicenow-incidents`: Search first, set impact and urgency, and resolve only after the user confirms the symptom has stopped. Load `skills/servicenow-incidents/SKILL.md` when you open or update an incident.
+- `servicenow-problems`: Relate the incidents that share a cause, and send the fix through a change. Load `skills/servicenow-problems/SKILL.md` when you open or update a problem.
+- `servicenow-changes`: A normal change with a backout, stopped before approval. Load `skills/servicenow-changes/SKILL.md` when you raise or handle a change.
+- `servicenow-requests`: Order a published catalog item as the user, and do not approve it. Load `skills/servicenow-requests/SKILL.md` when the user wants something from the catalog.
 
 ## Platform
 
@@ -82,6 +102,9 @@ This repo is jstack, a DevOps skill pack focused on Azure, AWS, Terraform and CI
 - `ops-rollback-plan`: The rehearsed rollback for a Terraform apply, a deploy, a migration, a network change or an IAM change. Load `skills/ops-rollback-plan/SKILL.md` before a change can reach production.
 - `ops-blast-radius`: List the subscription or account, the shared network, the state key and the pipeline before you apply. Load `skills/ops-blast-radius/SKILL.md` when a change can reach past the one object you mean to edit.
 - `ops-scripting-standards`: Fail closed, dry-run by default, and a second run changes nothing. Load `skills/ops-scripting-standards/SKILL.md` when you write a Bash, PowerShell or Python automation script.
+- `ops-backup-restore`: Name the recovery point and the restore time, and prove a restore on a copy before you delete data. Load `skills/ops-backup-restore/SKILL.md` when you protect or restore a data store.
+- `ops-access-review`: Remove what a joiner, mover, or leaver no longer needs, and keep break-glass out of daily use. Load `skills/ops-access-review/SKILL.md` when you review who still has standing access.
+- `ops-certificates`: Renew into the store you already use, and prove the new certificate before you remove the old binding. Load `skills/ops-certificates/SKILL.md` when a certificate expires or you bind TLS.
 
 ## Modes
 

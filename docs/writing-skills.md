@@ -40,6 +40,9 @@ Prefix the name with the area it belongs to:
 | `gitops-` | Argo CD, Flux and other GitOps delivery |
 | `policy-` | OPA, Sentinel and Azure Policy |
 | `ops-` | Change, incidents, cost, secrets and runbooks |
+| `github-` | GitHub repositories and pull requests |
+| `azuredevops-` | Azure DevOps repositories and pull requests |
+| `servicenow-` | ServiceNow incidents, problems, changes and requests |
 | `principle-` | Short rules that apply across areas |
 
 A review skill ends with `-review`, for example `terraform-plan-review`.
@@ -63,6 +66,10 @@ A principle (`principle-*`) is a short rule. It may omit Steps and Rollback. Eve
 Helper files may sit next to `SKILL.md`. A relative Markdown link must point at a file that exists beside the skill. Links inside fenced code blocks are not checked. `http`, `https`, `mailto` and `#anchor` links are left alone.
 
 Each skill also has `tests/prompts.md` in that folder. It holds two example asks and the behaviour that skill requires. Ask 1 records the first step or rule. Ask 2 records the next one when the skill has it. `tests/test_prompt_files.py` fails when the file is missing or when those two lines are the same step. These asks are not a record that someone ran the skill in Cursor, Copilot, or Claude Code.
+
+A playbook's Safety checks name `principle-stop-at-approval`, so a direct match still stops before an apply, a merge, or a grant. The rule itself stays in that principle. Principles omit the line. The linter warns when any other skill's Safety checks leave it out.
+
+The blinded review fixture is [examples/jstack-review](../examples/jstack-review/README.md). The person running a trial follows [the operator guide](operator-guide.md). After Cursor, Copilot, and Claude Code have each run a trial, fold a repeated miss into the skill that owns the fact, or into a warning in `scripts/lint-skills`. Do not add a skill to hold one repeated sentence.
 
 ## Secure defaults
 
@@ -100,6 +107,7 @@ Warnings do not fail the run:
 
 - `name` does not use a known area prefix, and it is not `jay-mode` or `setup-jstack`
 - a skill whose name does not start with `principle-` has no `Done when` heading
+- a skill whose name does not start with `principle-` does not name `principle-stop-at-approval` in its Safety checks
 
 Run it from the repo root:
 
@@ -139,6 +147,7 @@ Use this skill when an agent is about to change this area of Azure, AWS, Terrafo
 - The blast radius is named: subscription, account, cluster and pipeline.
 - Examples use federated identity, pinned versions and a locked remote backend.
 - Production has a second person to approve it.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -61,6 +61,7 @@ Create a private cluster. Give pods their own roles. Upgrade one minor at a time
 - Karpenter, if used, pins an AMI alias and a CPU limit, and its controller is not the node role.
 - Add-on versions were read from `describe-addon-versions`, not typed from memory.
 - Upgrade insights were read. The control plane moves before the node groups.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

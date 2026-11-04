@@ -50,6 +50,7 @@ license: MIT
 - A parent policy, SCP, peering, or shared vault is on the list when the change can reach it.
 - The apply does not include a second unrelated item from that list.
 - The rollback pipeline is inside the same list.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

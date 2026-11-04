@@ -88,6 +88,7 @@ Build small modules and pin every published version. The root module configures 
 - Pins match the reviewed release. These examples use Terraform `1.10.5`, `hashicorp/azurerm` `4.14.0` and `hashicorp/aws` `5.84.0`.
 - Grants list actions and scope. See `principle-least-privilege`.
 - The root uses a locked remote backend. Review a saved plan before apply. See `principle-change-safety`.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

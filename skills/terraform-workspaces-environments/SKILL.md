@@ -76,6 +76,7 @@ Give each environment its own state key. Promote a module version. Do not copy s
 - tfvars hold names and sizes, not secrets.
 - The version promoted to prod is the version already applied and checked in the lower environment.
 - Workspaces are not mixed with per-environment directories on the same stack.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

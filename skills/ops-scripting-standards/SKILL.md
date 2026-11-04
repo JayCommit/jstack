@@ -78,6 +78,7 @@ A script fails loudly, prints what it would change, and a second run with the sa
 - A second run with the same inputs changes nothing.
 - No secret is in the file, the arguments, or the output.
 - A delete or a replace does not run unless `--apply` was passed, or `-WhatIf` was left off on purpose.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

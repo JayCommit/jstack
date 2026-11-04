@@ -69,6 +69,7 @@ Assert on a plan with `terraform test`. Apply only when the plan cannot answer t
 - Destroy is a saved plan applied at the end of the same job.
 - The test identity is federated and cannot write production state.
 - Provider versions in the test match the pins that were reviewed.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

@@ -76,6 +76,7 @@ Read the rendered workload. A pod gets a budget, a policy and a security context
 - The ServiceAccount token is unmounted unless the pod calls the API. Cloud access is workload identity or Pod Identity.
 - A disruption budget leaves a surge, and a default-deny NetworkPolicy has the allows it needs.
 - No secret value is in the manifest or the diff.
+- Stop before an apply, a merge, or a grant. Follow `principle-stop-at-approval`.
 
 ## Rollback
 

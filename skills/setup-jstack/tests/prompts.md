@@ -9,7 +9,7 @@ I install jstack on a machine or into a repository.
 ### Expected for ask 1
 
 - Load `setup-jstack` and follow that file through its own done-when.
-- Step: Decide the tool and the scope. The scope is the whole pack, or a glob such as `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, or `principle-*`. A repository that has no cluster does not need the Kubernetes skills. Write the choice down.
+- Step: Decide the tool and the scope. The scope is the whole pack, or a glob such as `terraform-*`, `azure-*`, `aws-*`, `pipelines-*`, `github-*`, `azuredevops-*`, `servicenow-*`, `k8s-*`, `gitops-*`, `policy-*`, `ops-*`, or `principle-*`. A repository that has no cluster does not need the Kubernetes skills. A repository that does not use ServiceNow does not need the ServiceNow skills. Write the choice down.
 - Check: The tool and the skill glob are named before the copy.
 - Done when: The chosen tool can see the skills in the scope you named.
 

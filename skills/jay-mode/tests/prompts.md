@@ -10,7 +10,7 @@ A request could be an infrastructure change, a pipeline change, a review, or an 
 
 - Load `jay-mode` and follow that file through its own done-when.
 - Step: Read the request and take the first row that fits. The rows already put user impact before a review, and a review before a change.
-- Check: The playbook is one of incident, review, pipeline, or infra.
+- Check: The playbook is one of incident, review, pipeline, infra, repo, or servicenow.
 - Done when: The request is classified, and the skill for that row has been followed through its own done-when.
 
 ## Ask 2
