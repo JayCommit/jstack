@@ -28,7 +28,7 @@ Repository versions in `plugin.json` and `.cursor-plugin/plugin.json` stay at `0
 
 ### Changed
 
-- The docs home is one raised panel: the promise, the actions, and a session with Prompt, Loaded, and Holds. Install cards name the path.
+- The docs home is a short introduction, a compact session, and two indexes for install and jobs.
 - Every playbook names `principle-stop-at-approval` in Safety checks. `scripts/lint-skills` warns when that line is missing. Principles stay exempt, because the playbook is what a direct match loads.
 - `jay-mode` gives each request one skill. A failed Azure DevOps run and an Azure DevOps review both load `pipelines-azure-devops-yaml`, which reads the failing step before the YAML changes.
 - `jay-mode` loads `principle-stop-at-approval` for every classification and `principle-resource-baseline` when the change creates a resource. Access reviews, runners, backups, and certificates each have a row.
