@@ -1,0 +1,81 @@
+site_name: jstack
+site_description: DevOps skills for Azure, AWS, Terraform, and the pipelines that ship them.
+site_url: https://jaycommit.github.io/jstack/
+repo_url: https://github.com/JayCommit/jstack
+repo_name: JayCommit/jstack
+docs_dir: site
+site_dir: site-dist
+strict: true
+theme:
+  name: material
+  font: false
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+extra_css:
+  - stylesheets/extra.css
+plugins:
+  - search
+nav:
+  - Home: index.md
+  - How it works: how-it-works.md
+  - Install:
+      - Overview: install/index.md
+      - Cursor: install/cursor.md
+      - GitHub Copilot: install/copilot.md
+      - Other agents: install/other-agents.md
+      - Remove: install/remove.md
+  - Examples:
+      - Overview: examples/index.md
+      - Review a Terraform plan: examples/plan-review.md
+      - Federate a pipeline to Azure: examples/federate-azure.md
+      - Create a private AKS cluster: examples/private-aks.md
+      - Triage Terraform drift: examples/drift.md
+      - Price an Azure change: examples/azure-cost.md
+      - A failing pipeline: examples/failing-pipeline.md
+      - Raise a ServiceNow change: examples/servicenow-change.md
+  - Day to day: day-to-day.md
+  - Skills: catalog.md
+  - Secure defaults: secure-defaults.md
+  - Writing a skill: writing-a-skill.md

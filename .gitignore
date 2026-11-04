@@ -19,3 +19,7 @@ tfplan
 tfplan-*
 crash.log
 .alzlib
+site-dist/
+site/catalog.md
+site/writing-a-skill.md
+site/day-to-day.md

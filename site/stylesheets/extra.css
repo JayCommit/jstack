@@ -1,0 +1,76 @@
+:root {
+  --jstack-ink: #1c1917;
+  --jstack-amber: #b45309;
+  --md-text-font: "Segoe UI", "Helvetica Neue", sans-serif;
+  --md-code-font: "Cascadia Code", "Segoe UI Mono", ui-monospace, monospace;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #1c1917;
+  --md-default-fg-color: #f5f5f4;
+  --md-primary-fg-color: #0c0a09;
+  --md-accent-fg-color: #f59e0b;
+  --md-typeset-a-color: #fbbf24;
+  --jstack-amber: #f59e0b;
+}
+
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #fafaf9;
+  --md-primary-fg-color: #1c1917;
+  --md-accent-fg-color: #b45309;
+  --md-typeset-a-color: #9a3412;
+}
+
+.md-header {
+  box-shadow: none;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-header__title {
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+
+.md-typeset h1 {
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin-bottom: 0.4rem;
+}
+
+.md-typeset h2 {
+  font-weight: 640;
+  letter-spacing: -0.03em;
+}
+
+.jstack-kicker {
+  margin: 0 0 0.6rem;
+  color: var(--jstack-amber);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.jstack-lead {
+  max-width: 38rem;
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.md-typeset .grid.cards > ul > li {
+  border-top: 3px solid var(--jstack-amber);
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-left-color: var(--jstack-amber);
+}
+
+.md-typeset table:not([class]) {
+  font-size: 0.85rem;
+}
+
+.md-typeset code {
+  border-radius: 0.2rem;
+}

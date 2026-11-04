@@ -39,7 +39,9 @@ agents/                      Specialist agent personas (copied to .github/agents
 examples/jstack-sample/      Fixture stack. Nothing in it is applied.
 examples/jstack-review/      Blinded plan and workflow review. Not a pattern.
 docs/                        Operator guide, author guide, and templates
-scripts/                     Sync, install and lint helpers
+site/                        Docs site source. Catalog pages are generated
+mkdocs.yml                   MkDocs Material config. HTML builds to site-dist/
+scripts/                     Sync, install, lint, and docs render helpers
 AGENTS.md                    Cross-agent instructions
 .github/copilot-instructions.md  Copilot instructions for working on this repo
 ```
@@ -60,6 +62,18 @@ scripts/sync --dry-run --all /path/to/target-repo
 ./scripts/sync.ps1 -All -Target /path/to/target-repo
 ./scripts/sync.ps1 -Skill terraform-* -TargetDir .agents/skills -Target /path/to/target-repo
 ```
+
+## Docs site
+
+The guide for install, day-to-day use, and removal lives in `site/`. `scripts/render-docs.py` writes `site/catalog.md` from skill frontmatter and copies the operator guide and the writing guide. Those generated pages are not committed. `mkdocs build` writes HTML to `site-dist/`, which is not committed.
+
+```bash
+python -m pip install -r requirements-docs.txt
+python scripts/render-docs.py
+python -m mkdocs build --strict
+```
+
+Open `site-dist/index.html`. The public Pages URL stays off until the visibility choice is recorded on [issue #5](https://github.com/JayCommit/jstack/issues/5). Publishing stays off while the repository is private, because a Pages site on the current plan is public.
 
 ## Licence
 

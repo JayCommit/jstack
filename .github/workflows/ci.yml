@@ -15,6 +15,9 @@ on:
       - ".github/**"
       - ".gitleaks.toml"
       - ".markdownlint*"
+      - "site/**"
+      - "mkdocs.yml"
+      - "requirements-docs.txt"
   push:
     branches:
       - main
@@ -31,6 +34,9 @@ on:
       - ".github/**"
       - ".gitleaks.toml"
       - ".markdownlint*"
+      - "site/**"
+      - "mkdocs.yml"
+      - "requirements-docs.txt"
   workflow_dispatch:
 
 permissions:
@@ -129,3 +135,20 @@ jobs:
       - name: Test AWS sample
         working-directory: examples/jstack-sample/terraform/aws
         run: terraform test
+
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install docs tools
+        run: python3 -m pip install -r requirements-docs.txt
+      - name: Render and build
+        run: |
+          python3 scripts/render-docs.py
+          python3 -m mkdocs build --strict
