@@ -6,61 +6,106 @@ hide:
 
 <!-- markdownlint-disable-file MD041 -->
 
-<div class="jstack-stage" markdown>
+<div class="jstack-home" markdown>
 
 <p class="jstack-kicker">DevOps skill pack</p>
 
-# jstack
+# Prepare the change<br>You approve it { #prepare }
 
-<p class="jstack-lead">Azure, AWS, Terraform, and the pipelines that ship them. The agent loads one skill, prepares the change, and stops. You approve.</p>
+<p class="jstack-lead">Azure, AWS, Terraform, and the pipelines that ship them. The agent opens one skill, prepares the work, and stops.</p>
 
-<p class="jstack-actions"><a class="jstack-btn" href="install/">Install</a> <a class="jstack-btn jstack-btn-ghost" href="examples/">Try an example</a></p>
+<p class="jstack-actions"><a class="jstack-btn" href="install/">Install</a> <a class="jstack-btn jstack-btn-ghost" href="examples/">Try an example</a> <a class="jstack-textlink" href="install/remove/">Remove</a></p>
 
-<ol class="jstack-flow">
-<li><span>01</span><strong>Name the place</strong> Subscription or account, repository, and environment.</li>
-<li><span>02</span><strong>Ask for the job</strong> Start from an example when you want the words ready to paste.</li>
-<li><span>03</span><strong>One skill</strong> If several fit, load <code>jay-mode</code> and take the first row.</li>
-<li><span>04</span><strong>You decide</strong> Nothing is applied, merged, or granted until you say so.</li>
-</ol>
-
+<div class="jstack-console" aria-label="What a session looks like">
+<div class="jstack-console-bar"><span>jstack</span><span>Waiting for you</span></div>
+<div class="jstack-console-body">
+<div class="jstack-turns">
+<p><span>You</span>Review the plan for rg-example. Do not apply.</p>
+<p><span>Loaded</span><span class="jstack-files">terraform-plan-review<br>principle-stop-at-approval</span></p>
+<p><span>Next</span>The saved plan is ready. Nothing is applied.</p>
+</div>
+<div class="jstack-console-side">
+<p><span>Place</span>rg-example</p>
+<p><span>Holds</span>apply, merge, grant</p>
+<p><span>Then</span>you approve</p>
+</div>
+</div>
 </div>
 
-## Where it runs
+<div class="jstack-metrics">
+<p><strong>One skill</strong><span>The description is the trigger. The agent does not load the whole pack.</span></p>
+<p><strong>You approve</strong><span>Apply, merge, and grant stay with a person. The pipeline runs the change.</span></p>
+<p><strong>Short-lived identity</strong><span>Pipelines use federation. Static cloud keys stay out of the repository.</span></p>
+</div>
+
+<p class="jstack-more"><a href="how-it-works/">How a request loads</a></p>
+
+## Install
+
+<p class="jstack-deck">Pick the tool. Then pick a scope: the whole pack, or a glob such as <code>terraform-*</code>.</p>
 
 <div class="jstack-choices">
-<a class="jstack-choice" href="install/cursor/"><strong>Cursor</strong><span>Install the plugin. Do not keep a second copy of the skills.</span></a>
-<a class="jstack-choice" href="install/copilot/"><strong>GitHub Copilot</strong><span>Machine install with <code>gh skill</code>, or a repo copy with <code>scripts/sync</code>.</span></a>
-<a class="jstack-choice" href="install/other-agents/"><strong>Other agents</strong><span>Point Claude Code, Codex, or Gemini at <code>AGENTS.md</code>.</span></a>
-<a class="jstack-choice" href="install/remove/"><strong>Remove</strong><span>Delete the jstack copy. Leave every other skill where it is.</span></a>
+<a class="jstack-choice" href="install/cursor/"><span class="jstack-tag">Plugin</span><strong>Cursor</strong><span>Install from this repository. Do not also copy the skills into the project.</span></a>
+<a class="jstack-choice" href="install/copilot/"><span class="jstack-tag">Machine or repo</span><strong>GitHub Copilot</strong><span><code>gh skill install</code> for your user, or <code>scripts/sync</code> into one repository. Dry-run first.</span></a>
+<a class="jstack-choice" href="install/other-agents/"><span class="jstack-tag">AGENTS.md</span><strong>Claude Code, Codex, Gemini</strong><span>Point the agent at <code>AGENTS.md</code>. Sync into <code>.agents/skills</code> or <code>.claude/skills</code>.</span></a>
+<a class="jstack-choice" href="install/remove/"><span class="jstack-tag">Undo</span><strong>Remove</strong><span>There is no uninstall command. Delete the directory this repo installed, and nothing else.</span></a>
 </div>
 
-## What you came to do
+## Start from a job
 
-<div class="jstack-jobs">
-<a class="jstack-job" href="examples/plan-review/"><span class="jstack-tag">Terraform</span><strong>Review a plan</strong><span>Read the plan. Do not apply.</span></a>
-<a class="jstack-job" href="examples/federate-azure/"><span class="jstack-tag">Identity</span><strong>Federate a pipeline</strong><span>Replace the client secret. Copy the subject from a token.</span></a>
-<a class="jstack-job" href="examples/private-aks/"><span class="jstack-tag">Azure</span><strong>Private AKS</strong><span>Private API, Azure CNI overlay, workload identity.</span></a>
-<a class="jstack-job" href="examples/drift/"><span class="jstack-tag">Terraform</span><strong>Triage drift</strong><span>A scheduled plan changed, and nobody shipped it.</span></a>
-<a class="jstack-job" href="examples/azure-cost/"><span class="jstack-tag">Cost</span><strong>Price a change</strong><span>Estimate and a budget before anyone applies.</span></a>
-<a class="jstack-job" href="examples/failing-pipeline/"><span class="jstack-tag">Pipeline</span><strong>A failing run</strong><span>Here is the failed step. Do not edit yet.</span></a>
-<a class="jstack-job" href="examples/servicenow-change/"><span class="jstack-tag">ServiceNow</span><strong>Raise a change</strong><span>Act as me. Fill the record. Stop before approval.</span></a>
+<p class="jstack-deck">Open one example, copy the prompt, and name where the change lands.</p>
+
+<div class="jstack-rows">
+<a href="examples/plan-review/"><span class="jstack-tag">Terraform</span><strong>Review a plan</strong><span>Read this plan. Do not apply.</span></a>
+<a href="examples/federate-azure/"><span class="jstack-tag">Identity</span><strong>Federate a pipeline to Azure</strong><span>Replace the client secret. Copy the <code>sub</code> claim from a token.</span></a>
+<a href="examples/private-aks/"><span class="jstack-tag">Azure</span><strong>Create a private AKS cluster</strong><span>Private API, Azure CNI overlay, workload identity.</span></a>
+<a href="examples/drift/"><span class="jstack-tag">Terraform</span><strong>Triage drift</strong><span>A scheduled plan changed, and nobody shipped it.</span></a>
+<a href="examples/azure-cost/"><span class="jstack-tag">Cost</span><strong>Price an Azure change</strong><span>Estimate and a budget before anyone applies.</span></a>
+<a href="examples/failing-pipeline/"><span class="jstack-tag">Pipeline</span><strong>A failing pipeline</strong><span>Here is the failed step. Do not edit yet.</span></a>
+<a href="examples/servicenow-change/"><span class="jstack-tag">ServiceNow</span><strong>Raise a change</strong><span>Act as me. Fill the change. Stop before approval.</span></a>
 </div>
 
-## The pack
+## Elsewhere in the pack
 
-<div class="jstack-areas">
-<a href="catalog/#principles">Principles</a>
-<a href="catalog/#terraform">Terraform</a>
-<a href="catalog/#azure">Azure</a>
-<a href="catalog/#aws">AWS</a>
-<a href="catalog/#pipelines">Pipelines</a>
-<a href="catalog/#github">GitHub</a>
-<a href="catalog/#azure-devops">Azure DevOps</a>
-<a href="catalog/#servicenow">ServiceNow</a>
-<a href="catalog/#kubernetes">Kubernetes</a>
-<a href="catalog/#operations">Operations</a>
-<a href="how-it-works/">How a request loads</a>
-<a href="day-to-day/">Day to day</a>
+<div class="jstack-columns">
+<div>
+<p class="jstack-col-label">Install</p>
+<ul>
+<li><a href="install/">Overview</a></li>
+<li><a href="install/cursor/">Cursor</a></li>
+<li><a href="install/copilot/">GitHub Copilot</a></li>
+<li><a href="install/other-agents/">Other agents</a></li>
+<li><a href="install/remove/">Remove</a></li>
+</ul>
+</div>
+<div>
+<p class="jstack-col-label">Guide</p>
+<ul>
+<li><a href="how-it-works/">How it works</a></li>
+<li><a href="day-to-day/">Day to day</a></li>
+<li><a href="secure-defaults/">Secure defaults</a></li>
+<li><a href="writing-a-skill/">Writing a skill</a></li>
+<li><a href="examples/">Examples</a></li>
+</ul>
+</div>
+<div>
+<p class="jstack-col-label">Skills</p>
+<ul>
+<li><a href="catalog/">All skills</a></li>
+<li><a href="catalog/#principles">Principles</a></li>
+<li><a href="catalog/#terraform">Terraform</a></li>
+<li><a href="catalog/#azure">Azure</a></li>
+<li><a href="catalog/#aws">AWS</a></li>
+<li><a href="catalog/#pipelines">Pipelines</a></li>
+<li><a href="catalog/#github">GitHub</a></li>
+<li><a href="catalog/#azure-devops">Azure DevOps</a></li>
+<li><a href="catalog/#servicenow">ServiceNow</a></li>
+<li><a href="catalog/#kubernetes">Kubernetes</a></li>
+<li><a href="catalog/#operations">Operations</a></li>
+</ul>
+</div>
 </div>
 
 <p class="jstack-note">Principles, Terraform, Azure, AWS, pipelines, repositories, ServiceNow, platform, and operations are in the repository. Live trials in Cursor, Copilot, and Claude Code are still open. The pack is <code>0.0.1</code>. Progress is on <a href="https://github.com/JayCommit/jstack/issues/1">issue 1</a>. Inspired by <a href="https://github.com/cursor/plugins/tree/main/pstack">pstack</a> by Lauren Tan. The words here are written for this pack.</p>
+
+</div>

@@ -2,11 +2,11 @@
 
 The agent does not load the whole pack. It matches your request, opens one playbook, and loads the principles that apply.
 
-<ol class="jstack-flow">
-<li><span>01</span><strong>Prompt</strong> You name the place and the job.</li>
-<li><span>02</span><strong>Match</strong> The skill description is the trigger.</li>
-<li><span>03</span><strong>One file</strong> <code>jay-mode</code> picks a row when several skills fit.</li>
-<li><span>04</span><strong>Stop</strong> A person approves. The pipeline applies.</li>
+<ol class="jstack-steps">
+<li><strong>Prompt</strong><span>You name the place and the job.</span></li>
+<li><strong>Match</strong><span>The skill description is the trigger.</span></li>
+<li><strong>One file</strong><span><code>jay-mode</code> picks a row when several skills fit.</span></li>
+<li><strong>Stop</strong><span>A person approves. The pipeline applies.</span></li>
 </ol>
 
 ## A skill is a folder
@@ -50,6 +50,7 @@ The agent prepares the diff, the saved plan, or the ticket. It does not apply, m
 ## The same path, drawn
 
 ```mermaid
+%%{init: {"theme": "neutral"}}%%
 flowchart LR
   prompt[Prompt] --> match[Description match]
   match --> mode[jay-mode when several skills fit]
