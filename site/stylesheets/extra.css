@@ -105,8 +105,9 @@
   letter-spacing: -0.065em;
 }
 
-.jstack-stage h1::after {
-  content: none;
+.jstack-stage h1::after,
+.jstack-stage .headerlink {
+  display: none;
 }
 
 .jstack-kicker {

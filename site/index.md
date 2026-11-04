@@ -6,7 +6,7 @@ hide:
 
 <!-- markdownlint-disable-file MD041 -->
 
-<div class="jstack-stage">
+<div class="jstack-stage" markdown>
 
 <p class="jstack-kicker">DevOps skill pack</p>
 
