@@ -1,72 +1,18 @@
 # Examples
 
-Each page is one job. Copy the prompt, name where the change lands, and tell the agent which skill to load.
+Each card is one job. Open it, copy the prompt, and name where the change lands.
 
 The agent prepares the work and stops. You approve.
 
-<!-- markdownlint-disable MD030 -->
-
-<div class="grid cards" markdown>
-
--   **Review a Terraform plan**
-
-    ---
-
-    Read this plan. Do not apply.
-
-    [Open the prompt](plan-review.md)
-
--   **Federate a pipeline to Azure**
-
-    ---
-
-    Replace the client secret with federation.
-
-    [Open the prompt](federate-azure.md)
-
--   **Create a private AKS cluster**
-
-    ---
-
-    Private API, Azure CNI overlay, workload identity.
-
-    [Open the prompt](private-aks.md)
-
--   **Triage Terraform drift**
-
-    ---
-
-    A scheduled plan changed, and nobody shipped it.
-
-    [Open the prompt](drift.md)
-
--   **Price an Azure change**
-
-    ---
-
-    Estimate and a budget before anyone applies.
-
-    [Open the prompt](azure-cost.md)
-
--   **A failing pipeline**
-
-    ---
-
-    Here is the failed step. Do not edit yet.
-
-    [Open the prompt](failing-pipeline.md)
-
--   **Raise a ServiceNow change**
-
-    ---
-
-    Act as me. Fill the change. Stop before approval.
-
-    [Open the prompt](servicenow-change.md)
-
+<div class="jstack-jobs">
+<a class="jstack-job" href="plan-review/"><span class="jstack-tag">Terraform</span><strong>Review a plan</strong><span>Read this plan. Do not apply.</span></a>
+<a class="jstack-job" href="federate-azure/"><span class="jstack-tag">Identity</span><strong>Federate a pipeline to Azure</strong><span>Replace the client secret. Copy the <code>sub</code> claim from a token.</span></a>
+<a class="jstack-job" href="private-aks/"><span class="jstack-tag">Azure</span><strong>Create a private AKS cluster</strong><span>Private API, Azure CNI overlay, workload identity.</span></a>
+<a class="jstack-job" href="drift/"><span class="jstack-tag">Terraform</span><strong>Triage drift</strong><span>A scheduled plan changed, and nobody shipped it.</span></a>
+<a class="jstack-job" href="azure-cost/"><span class="jstack-tag">Cost</span><strong>Price an Azure change</strong><span>Estimate and a budget before anyone applies.</span></a>
+<a class="jstack-job" href="failing-pipeline/"><span class="jstack-tag">Pipeline</span><strong>A failing pipeline</strong><span>Here is the failed step. Do not edit yet.</span></a>
+<a class="jstack-job" href="servicenow-change/"><span class="jstack-tag">ServiceNow</span><strong>Raise a change</strong><span>Act as me. Fill the change. Stop before approval.</span></a>
 </div>
-
-<!-- markdownlint-enable MD030 -->
 
 !!! warning "A page is an incident"
 

@@ -8,6 +8,7 @@ each run. Skill bodies stay in skills/. This script does not copy them.
 from __future__ import annotations
 
 import argparse
+import html
 import subprocess
 import sys
 from pathlib import Path
@@ -86,25 +87,42 @@ def catalog_markdown(skills: list[dict[str, str]]) -> str:
     by_group: dict[str, list[dict[str, str]]] = {}
     for skill in skills:
         by_group.setdefault(skill["group"], []).append(skill)
+    known = {key for key, _title in GROUPS}
+    present: list[tuple[str, str, list[dict[str, str]]]] = []
+    for key, title in GROUPS:
+        rows = by_group.get(key, [])
+        if rows:
+            present.append((key, title, rows))
+    modes = [skill for skill in skills if skill["group"] not in known]
+    if modes:
+        present.append(("modes", "Modes", modes))
+
+    buttons = [
+        '<button type="button" data-group="all" aria-pressed="true">All</button>'
+    ]
+    for key, title, _rows in present:
+        buttons.append(
+            f'<button type="button" data-group="{html.escape(key)}" '
+            f'aria-pressed="false">{html.escape(title)}</button>'
+        )
     lines = [
         "# Skills",
         "",
-        "Generated from `skills/*/SKILL.md` on each build. "
-        "The name and the description are the frontmatter. "
-        "The playbook stays in the repository.",
+        "The name and the description come from each skill file. "
+        "The playbook stays in the repository. Filter this list, or use the search in the header.",
         "",
-        f"{len(skills)} skills.",
+        '<div class="jstack-finder" data-jstack-finder>',
+        '<label class="jstack-kicker" for="jstack-q">Find a skill</label>',
+        '<input id="jstack-q" type="search" placeholder="Try plan, AKS, ServiceNow, rollback" autocomplete="off">',
+        '<div class="jstack-groups">',
+        *buttons,
+        "</div>",
+        '<p class="jstack-finder-count" data-jstack-count></p>',
+        "</div>",
         "",
     ]
-    known = {key for key, _title in GROUPS}
-    for key, title in GROUPS:
-        rows = by_group.get(key, [])
-        if not rows:
-            continue
-        lines.extend(section(title, rows))
-    modes = [skill for skill in skills if skill["group"] not in known]
-    if modes:
-        lines.extend(section("Modes", modes))
+    for key, title, rows in present:
+        lines.extend(section(key, title, rows))
     lines.extend(
         [
             "## Still open",
@@ -119,16 +137,25 @@ def catalog_markdown(skills: list[dict[str, str]]) -> str:
     return "\n".join(lines)
 
 
-def section(title: str, rows: list[dict[str, str]]) -> list[str]:
-    lines = [f"## {title}", ""]
+def section(group: str, title: str, rows: list[dict[str, str]]) -> list[str]:
+    lines = [f"## {title}", "", '<div class="jstack-skillgrid">']
     for skill in sorted(rows, key=lambda item: item["name"]):
+        name = html.escape(skill["name"], quote=True)
+        description = html.escape(skill["description"])
         url = f"{BLOB}/skills/{skill['name']}/SKILL.md"
-        lines.append(f"### {skill['name']}")
-        lines.append("")
-        lines.append(skill["description"])
-        lines.append("")
-        lines.append(f"[Read {skill['name']}]({url})")
-        lines.append("")
+        lines.extend(
+            [
+                (
+                    f'<article class="jstack-skill" data-group="{html.escape(group, quote=True)}" '
+                    f'data-name="{name}">'
+                ),
+                f'<p class="jstack-skill-name">{name}</p>',
+                f"<p>{description}</p>",
+                f'<a href="{url}">Open the skill</a>',
+                "</article>",
+            ]
+        )
+    lines.extend(["</div>", ""])
     return lines
 
 

@@ -1,48 +1,15 @@
 # Install
 
-Pick a tool, then pick a scope.
+Pick the tool. Then pick a scope: the whole pack, or a glob such as `terraform-*`.
 
-The scope is the whole pack, or a glob such as `terraform-*` and `principle-*`. A repository with no cluster does not need the Kubernetes skills. A repository that does not use ServiceNow does not need those skills.
-
-<!-- markdownlint-disable MD030 -->
-
-<div class="grid cards" markdown>
-
--   **Cursor**
-
-    ---
-
-    Install the plugin. Do not also copy the same skills into the project.
-
-    [Install for Cursor](cursor.md)
-
--   **GitHub Copilot**
-
-    ---
-
-    On your machine with `gh skill install`, or in one repository with `scripts/sync`.
-
-    [Install for Copilot](copilot.md)
-
--   **Other agents**
-
-    ---
-
-    Point Claude Code, Codex, or Gemini at `AGENTS.md`, then sync the skills you chose.
-
-    [Install for other agents](other-agents.md)
-
--   **Remove**
-
-    ---
-
-    Delete the jstack copy. Leave every skill that came from somewhere else.
-
-    [Remove jstack](remove.md)
-
+<div class="jstack-choices">
+<a class="jstack-choice" href="cursor/"><span class="jstack-tag">Plugin</span><strong>Cursor</strong><span>Install from this repository. Do not also copy the skills into the project.</span></a>
+<a class="jstack-choice" href="copilot/"><span class="jstack-tag">Machine or repo</span><strong>GitHub Copilot</strong><span><code>gh skill install</code> for your user, or <code>scripts/sync</code> into one repository. Dry-run first.</span></a>
+<a class="jstack-choice" href="other-agents/"><span class="jstack-tag">AGENTS.md</span><strong>Claude Code, Codex, Gemini</strong><span>Point the agent at <code>AGENTS.md</code>. Sync into <code>.agents/skills</code> or <code>.claude/skills</code>.</span></a>
+<a class="jstack-choice" href="remove/"><span class="jstack-tag">Undo</span><strong>Remove</strong><span>There is no uninstall command. Delete the directory this repo installed, and nothing else.</span></a>
 </div>
 
-<!-- markdownlint-enable MD030 -->
+A repository with no cluster does not need the Kubernetes skills. A repository that does not use ServiceNow does not need those skills.
 
 !!! note "Lint is for authors"
 

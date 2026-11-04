@@ -25,13 +25,17 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
   features:
+    - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.instant
+    - navigation.instant.progress
     - navigation.tracking
-    - navigation.sections
+    - navigation.path
     - navigation.top
     - navigation.footer
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
     - content.tabs.link
     - toc.follow
@@ -54,11 +58,17 @@ markdown_extensions:
       alternate_style: true
 extra_css:
   - stylesheets/extra.css
+extra_javascript:
+  - javascripts/finder.js
 plugins:
   - search
 nav:
   - Home: index.md
-  - How it works: how-it-works.md
+  - Guide:
+      - How it works: how-it-works.md
+      - Day to day: day-to-day.md
+      - Secure defaults: secure-defaults.md
+      - Writing a skill: writing-a-skill.md
   - Install:
       - Overview: install/index.md
       - Cursor: install/cursor.md
@@ -74,7 +84,4 @@ nav:
       - Price an Azure change: examples/azure-cost.md
       - A failing pipeline: examples/failing-pipeline.md
       - Raise a ServiceNow change: examples/servicenow-change.md
-  - Day to day: day-to-day.md
   - Skills: catalog.md
-  - Secure defaults: secure-defaults.md
-  - Writing a skill: writing-a-skill.md
