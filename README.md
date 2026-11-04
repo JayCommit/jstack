@@ -11,7 +11,7 @@ Jay's DevOps skill pack for AI coding agents, focused on **Azure, AWS and Terraf
 - **Platform:** containers, Kubernetes, Helm, GitOps (Argo CD/Flux), policy as code (OPA, Sentinel, Azure Policy), observability
 - **Operations:** change safety, secrets, cost, incidents, runbooks, postmortems, backup and restore, access reviews, certificates
 
-**Status:** principles (including stop-at-approval and the resource baseline), Terraform, Azure, AWS, pipelines, GitHub and Azure DevOps repositories, ServiceNow, platform, operations, `jay-mode`, `setup-jstack`, and the four specialist agents are in. The sample stack is `examples/jstack-sample`. The blinded review target is `examples/jstack-review`. The task guide is [Operator guide](docs/operator-guide.md). Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is tracked in [issue #1](../../issues/1).
+**Status:** principles (including stop-at-approval and the resource baseline), Terraform, Azure, AWS, pipelines, GitHub and Azure DevOps repositories, ServiceNow, platform, operations, `jay-mode`, `setup-jstack`, and the four specialist agents are in. The sample stack is `examples/jstack-sample`. The blinded review target is `examples/jstack-review`. The task guide is [Operator guide](docs/operator-guide.md). The guide is published at [https://jaycommit.github.io/jstack/](https://jaycommit.github.io/jstack/). Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is tracked in [issue #1](../../issues/1).
 
 ## Inspiration and credit
 
@@ -73,7 +73,7 @@ python scripts/render-docs.py
 python -m mkdocs build --strict
 ```
 
-Open `site-dist/index.html`. The public Pages URL stays off until the visibility choice is recorded on [issue #5](https://github.com/JayCommit/jstack/issues/5). Publishing stays off while the repository is private, because a Pages site on the current plan is public.
+Open `site-dist/index.html` for a local preview. The published guide is [https://jaycommit.github.io/jstack/](https://jaycommit.github.io/jstack/).
 
 ## Licence
 

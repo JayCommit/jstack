@@ -24,7 +24,7 @@ Repository versions in `plugin.json` and `.cursor-plugin/plugin.json` stay at `0
 - Sample stack `examples/jstack-sample`: mocked Azure and AWS Terraform tests, OIDC pipeline examples, and a Helm chart.
 - `examples/jstack-review` is a blinded plan and workflow review. `prompts.md` is the ask. `expected.md` is the answer key.
 - [Operator guide](docs/operator-guide.md) covers a plan, a failing pipeline, a workflow review, and a ServiceNow change.
-- MkDocs Material source under `site/` covers install, day-to-day use, examples, and removal. `scripts/render-docs.py` builds the catalog from skill frontmatter. The Pages deploy job stays off while the repository is private.
+- MkDocs Material source under `site/` covers install, day-to-day use, examples, and removal. `scripts/render-docs.py` builds the catalog from skill frontmatter. The site publishes to [https://jaycommit.github.io/jstack/](https://jaycommit.github.io/jstack/).
 
 ### Changed
 

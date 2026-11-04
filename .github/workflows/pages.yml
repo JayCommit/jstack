@@ -21,12 +21,15 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -42,16 +45,14 @@ jobs:
         run: python3 scripts/render-docs.py
       - name: Build the site
         run: python3 -m mkdocs build --strict
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: site-dist
 
-  # Deploy stays off. This repository is private, and a published Pages site
-  # on the current plan is public. Issue 5 records that choice before this
-  # job is enabled. Enabling it also needs the build job to upload site-dist
-  # with actions/upload-pages-artifact. Jobs do not share a workspace, so the
-  # upload below finds nothing until that move. A skipped job publishes nothing.
-  # When deploy is turned on, set cancel-in-progress to false so a second push
-  # does not cancel a publish.
   deploy:
-    if: false
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -63,12 +64,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Configure Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
-      - name: Upload the site
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
-        with:
-          path: site-dist
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

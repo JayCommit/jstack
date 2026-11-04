@@ -60,11 +60,7 @@ The agent loads one playbook, then the principles that apply. It prepares the di
 
 The principles, Terraform, Azure, AWS, pipelines, GitHub and Azure DevOps repositories, ServiceNow, platform, and operations skills are in the repository. The catalog is generated from those files on each build.
 
-Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is on [issue 1](https://github.com/JayCommit/jstack/issues/1). This site is tracked on [issue 5](https://github.com/JayCommit/jstack/issues/5).
-
-!!! note "The public URL stays off"
-
-    The site builds from this repository. Publishing it stays off while the repository is private. A published GitHub Pages site on the current plan is public.
+Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is on [issue 1](https://github.com/JayCommit/jstack/issues/1).
 
 ## Credit
 
