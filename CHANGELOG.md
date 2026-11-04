@@ -28,6 +28,7 @@ Repository versions in `plugin.json` and `.cursor-plugin/plugin.json` stay at `0
 
 ### Changed
 
+- The docs site uses larger type, shorter home, install, and example pages, and a warmer light and dark scheme.
 - Every playbook names `principle-stop-at-approval` in Safety checks. `scripts/lint-skills` warns when that line is missing. Principles stay exempt, because the playbook is what a direct match loads.
 - `jay-mode` gives each request one skill. A failed Azure DevOps run and an Azure DevOps review both load `pipelines-azure-devops-yaml`, which reads the failing step before the YAML changes.
 - `jay-mode` loads `principle-stop-at-approval` for every classification and `principle-resource-baseline` when the change creates a resource. Access reviews, runners, backups, and certificates each have a row.

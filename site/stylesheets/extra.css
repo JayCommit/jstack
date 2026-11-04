@@ -1,52 +1,110 @@
 :root {
   --jstack-ink: #1c1917;
-  --jstack-amber: #b45309;
-  --md-text-font: "Segoe UI", "Helvetica Neue", sans-serif;
+  --jstack-amber: #c2410c;
+  --jstack-on-amber: #fffdf8;
+  --jstack-muted: #57534e;
+  --jstack-surface: #fffdf8;
+  --jstack-line: #e6dccb;
+  --jstack-paper: #f3efe6;
+  --md-text-font: Aptos, "Segoe UI", "Helvetica Neue", sans-serif;
   --md-code-font: "Cascadia Code", "Segoe UI Mono", ui-monospace, monospace;
 }
 
-[data-md-color-scheme="slate"] {
-  --md-default-bg-color: #1c1917;
-  --md-default-fg-color: #f5f5f4;
-  --md-primary-fg-color: #0c0a09;
-  --md-accent-fg-color: #f59e0b;
-  --md-typeset-a-color: #fbbf24;
-  --jstack-amber: #f59e0b;
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: var(--jstack-paper);
+  --md-default-fg-color: var(--jstack-ink);
+  --md-default-fg-color--light: var(--jstack-muted);
+  --md-primary-fg-color: #1c1917;
+  --md-accent-fg-color: #c2410c;
+  --md-typeset-a-color: #9a3412;
+  --md-code-bg-color: #fffdf8;
 }
 
-[data-md-color-scheme="default"] {
-  --md-default-bg-color: #fafaf9;
-  --md-primary-fg-color: #1c1917;
-  --md-accent-fg-color: #b45309;
-  --md-typeset-a-color: #9a3412;
+[data-md-color-scheme="slate"] {
+  --jstack-amber: #fbbf24;
+  --jstack-on-amber: #1c1917;
+  --jstack-muted: #d6d3d1;
+  --jstack-surface: #1c1917;
+  --jstack-line: #44403c;
+  --jstack-paper: #100e0c;
+  --md-default-bg-color: var(--jstack-paper);
+  --md-default-fg-color: #f5f0e8;
+  --md-default-fg-color--light: #d6d3d1;
+  --md-primary-fg-color: #0c0a09;
+  --md-accent-fg-color: #fbbf24;
+  --md-typeset-a-color: #fbbf24;
+  --md-code-bg-color: #231f1b;
 }
 
 .md-header {
   box-shadow: none;
-  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  border-bottom: 1px solid transparent;
 }
 
 .md-header__title {
-  font-weight: 650;
-  letter-spacing: -0.04em;
-}
-
-.md-typeset h1 {
-  font-weight: 650;
-  letter-spacing: -0.045em;
-  line-height: 1.05;
-  margin-bottom: 0.4rem;
-}
-
-.md-typeset h2 {
-  font-weight: 640;
+  font-weight: 680;
   letter-spacing: -0.03em;
 }
 
+.md-typeset {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.md-typeset h1 {
+  font-weight: 680;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+}
+
+.md-typeset h1 + p {
+  max-width: 38rem;
+  color: var(--jstack-muted);
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.md-typeset h2 {
+  margin-top: 2.2rem;
+  padding-bottom: 0.35rem;
+  font-weight: 660;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid var(--jstack-line);
+}
+
+.md-typeset h3 {
+  margin-top: 1.6rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.md-typeset p,
+.md-typeset ul,
+.md-typeset ol {
+  max-width: 40rem;
+}
+
+.md-typeset .grid,
+.md-typeset .grid p,
+.md-typeset table,
+.md-typeset .highlight,
+.md-typeset .admonition,
+.md-typeset .tabbed-set,
+.md-typeset pre,
+.md-typeset .jstack-steps,
+.md-typeset .jstack-steps li,
+.md-typeset .jstack-hero,
+.md-typeset .jstack-hero p,
+.md-typeset .jstack-next,
+.md-typeset .jstack-chips {
+  max-width: none;
+}
+
 .jstack-kicker {
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.55rem;
   color: var(--jstack-amber);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -54,23 +112,156 @@
 
 .jstack-lead {
   max-width: 38rem;
-  font-size: 1.15rem;
+  color: var(--jstack-muted);
+  font-size: 1.25rem;
   line-height: 1.45;
 }
 
+.jstack-hero {
+  margin: 0.2rem 0 1.6rem;
+  padding: 1.35rem 1.4rem 1.2rem;
+  border: 1px solid var(--jstack-line);
+  border-radius: 16px;
+  background:
+    radial-gradient(900px 160px at 0% 0%, color-mix(in srgb, var(--jstack-amber) 18%, transparent), transparent 60%),
+    var(--jstack-surface);
+}
+
+.jstack-hero p:last-child {
+  margin-bottom: 0;
+}
+
+.jstack-next {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.jstack-next a {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--jstack-line);
+  border-radius: 999px;
+  background: var(--jstack-surface);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.jstack-next a:hover {
+  border-color: var(--jstack-amber);
+}
+
+.jstack-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  max-width: none;
+}
+
+.jstack-chips code {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--jstack-line);
+  border-radius: 999px;
+  background: var(--jstack-surface);
+}
+
+.jstack-steps {
+  display: grid;
+  gap: 0.7rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: jstack-step;
+}
+
+.jstack-steps li {
+  position: relative;
+  max-width: 40rem;
+  margin: 0;
+  padding: 0.9rem 1rem 0.9rem 3.5rem;
+  border: 1px solid var(--jstack-line);
+  border-radius: 12px;
+  background: var(--jstack-surface);
+}
+
+.jstack-steps li::before {
+  content: counter(jstack-step);
+  counter-increment: jstack-step;
+  position: absolute;
+  top: 0.95rem;
+  left: 0.9rem;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--jstack-amber);
+  color: var(--jstack-on-amber);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.md-typeset .grid.cards > ul {
+  grid-gap: 0.8rem;
+}
+
 .md-typeset .grid.cards > ul > li {
+  border: 1px solid var(--jstack-line);
   border-top: 3px solid var(--jstack-amber);
+  border-radius: 14px;
+  background: var(--jstack-surface);
+  box-shadow: none;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--jstack-amber);
 }
 
 .md-typeset .admonition,
 .md-typeset details {
+  border-radius: 12px;
   border-left-color: var(--jstack-amber);
+  box-shadow: none;
 }
 
-.md-typeset table:not([class]) {
-  font-size: 0.85rem;
+.md-typeset h2 + .highlight {
+  border-left: 3px solid var(--jstack-amber);
+  border-radius: 0 12px 12px 0;
+}
+
+.md-typeset pre {
+  border-radius: 12px;
 }
 
 .md-typeset code {
-  border-radius: 0.2rem;
+  border-radius: 0.25rem;
+}
+
+.md-typeset table:not([class]) {
+  font-size: 1rem;
+  line-height: 1.45;
+  border: 1px solid var(--jstack-line);
+  border-radius: 12px;
+}
+
+.md-typeset table:not([class]) th {
+  font-weight: 680;
+  background: color-mix(in srgb, var(--jstack-amber) 12%, var(--jstack-surface));
+}
+
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
+  padding: 0.7rem 0.85rem;
+}
+
+.md-nav__link {
+  line-height: 1.45;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-typeset {
+    font-size: 1.05rem;
+  }
 }

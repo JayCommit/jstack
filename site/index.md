@@ -1,9 +1,13 @@
-# jstack
+# One skill, then you approve
 
-<p class="jstack-kicker">DevOps skills for agents</p>
-<p class="jstack-lead">One pack for Azure, AWS, Terraform, and the pipelines that ship them. Cursor, GitHub Copilot, and any agent that reads <code>AGENTS.md</code> use the same files.</p>
+<div class="jstack-hero" markdown>
 
-The agent loads one playbook, then the principles that apply. It prepares the diff and stops. You approve. The pipeline applies.
+<p class="jstack-kicker">jstack</p>
+<p class="jstack-lead">A DevOps pack for Azure, AWS, Terraform, and the pipelines that ship them. Cursor, Copilot, and any agent that reads <code>AGENTS.md</code> use the same files.</p>
+
+The agent prepares the diff and stops. You approve. The pipeline applies.
+
+</div>
 
 <!-- markdownlint-disable MD030 -->
 
@@ -13,7 +17,7 @@ The agent loads one playbook, then the principles that apply. It prepares the di
 
     ---
 
-    Put the pack on Cursor, Copilot, or another agent. Take a glob, or take the whole set.
+    Cursor, Copilot, or another agent. Whole pack, or one glob.
 
     [Install jstack](install/index.md)
 
@@ -21,7 +25,7 @@ The agent loads one playbook, then the principles that apply. It prepares the di
 
     ---
 
-    A description match, one skill, and a stop before apply, merge, or grant.
+    One description match. One file. A stop before apply, merge, or grant.
 
     [See the load path](how-it-works.md)
 
@@ -29,7 +33,7 @@ The agent loads one playbook, then the principles that apply. It prepares the di
 
     ---
 
-    A situation, a prompt you can paste, the skills to load, and what good looks like.
+    Copy a prompt. Name the place. Tell the agent which skill to load.
 
     [Use an example](examples/index.md)
 
@@ -37,7 +41,7 @@ The agent loads one playbook, then the principles that apply. It prepares the di
 
     ---
 
-    Delete the jstack copy. Leave every skill that came from somewhere else.
+    Delete the jstack copy. Leave every other skill where it is.
 
     [Remove jstack](install/remove.md)
 
@@ -45,22 +49,23 @@ The agent loads one playbook, then the principles that apply. It prepares the di
 
 <!-- markdownlint-enable MD030 -->
 
-## A request, in order
+## A request
 
-| Step | What happens |
-| --- | --- |
-| 1 | You name the subscription or account, the repository, and the environment. |
-| 2 | The description on `skills/<name>/SKILL.md` matches the request. |
-| 3 | If several skills fit, `jay-mode` takes the first row and names the one skill to load. |
-| 4 | The agent reads that file. It stops before an apply, a merge, or a grant. |
+<ol class="jstack-steps">
+<li><strong>Name the place.</strong> Subscription or account, repository, and environment.</li>
+<li><strong>Ask for the job.</strong> Start from an example when you want the words ready to paste.</li>
+<li><strong>One skill.</strong> If several could fit, say: load <code>jay-mode</code> and take the first row.</li>
+<li><strong>You decide.</strong> Nothing is applied, merged, or granted until you say so.</li>
+</ol>
 
-[Day to day](day-to-day.md) is the operator guide. [Skills](catalog.md) is the generated catalog. [Secure defaults](secure-defaults.md) says which principle to load.
+[Day to day](day-to-day.md) [Skills](catalog.md) [Secure defaults](secure-defaults.md)
+{ .jstack-next }
 
 ## Status
 
-The principles, Terraform, Azure, AWS, pipelines, GitHub and Azure DevOps repositories, ServiceNow, platform, and operations skills are in the repository. The catalog is generated from those files on each build.
+Principles, Terraform, Azure, AWS, pipelines, GitHub and Azure DevOps repositories, ServiceNow, platform, and operations are in the repository. The catalog is built from those files.
 
-Live trials in Cursor, Copilot, and Claude Code are still open, and the repository is still `0.0.1`. Progress is on [issue 1](https://github.com/JayCommit/jstack/issues/1).
+Live trials in Cursor, Copilot, and Claude Code are still open. The pack is still `0.0.1`. Progress is on [issue 1](https://github.com/JayCommit/jstack/issues/1).
 
 ## Credit
 
